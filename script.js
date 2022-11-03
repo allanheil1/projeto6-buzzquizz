@@ -1,3 +1,8 @@
+// PAGE 1
+
+function goToCreateQuizz(){
+  window.open("/tela3/index.html", "_self");
+}
 
 // PAGE 3
 
