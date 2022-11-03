@@ -86,6 +86,20 @@ body{
     margin-bottom: 40px;
 }
 
+.ctitulo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctitulo p{
+
+    color: #ffffff;
+    font-size: 39px;
+
+    position: absolute;
+}
+
 .cabecalho.p{
     width: 698.16px;
     height: 137.99px;
@@ -152,16 +166,18 @@ body{
     justify-content: space-between;
 }
 
-.pergunta img{
+.resposta img{
     width: 331px;
     height: 176px;
 
     object-fit: cover;
 }
 
-.pergunta p{
+.resposta p{
     font-size: 20px;
     font-weight: bold;
+
+    margin-top: 5px;
 }
 
 .desabilitado{
@@ -278,10 +294,6 @@ body{
     font-size: 19px;
    }
 
-   .titulo{
-    margin-bottom: 30px;
-   }
-
    .pergunta{
     width: 375px;
     height: 456px;
@@ -297,10 +309,35 @@ body{
     object-fit: cover;
    }
 
-   .cabecalho{
+   .ctitulo p{
+    font-size: 19px;
+   }
+
+   .cabecalho.p{
     width: 340px;
     height: 89px;
 
+    margin-bottom: 15px;
+   }
+
+   .cabecalho.s{
+    width: 340px;
+    height: 89px;
+
+    margin-bottom: 15px;
+   }
+
+   .cabecalho.t{
+    width: 340px;
+    height: 89px;
+
+    margin-bottom: 15px;
+   }
+
+   .cabecalho.q{
+    width: 340px;
+    height: 89px;
+    
     margin-bottom: 15px;
    }
 
@@ -309,7 +346,15 @@ body{
     font-size: 19px;
     font-weight: bold;
     text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
    }
+
+   .resposta p{
+    font-size: 13px;
+}
 
    .paragrafo{
     max-width: 160px;
@@ -331,6 +376,7 @@ body{
 
    .topo p{
     font-size: 19px;
+    text-align: center;
    }
 
    .menu{
