@@ -9,8 +9,108 @@
 		<link rel="stylesheet" href="style1.css" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 	</head>
 	<body>
+		<div class="header-title">
+			<header>
+				<h1>BuzzQuizz</h1>
+			</header>
+		</div>
+		<div class="page-content">
+			<div class="user-quizzes">
+				<!--Quando não há quizzes de usuário cadastrados: -->
+				<div class="empty-user-quizzes hidden">
+					<h1>Você não criou nenhum quizz ainda :(</h1>
+					<button onclick="goToCreateQuizz()">Criar Quizz</button>
+				</div>
+				<!--Quando há quizzes de usuário cadastrados: -->
+				<div class="have-user-quizzes">
+					<div class="user-quizzes-header">
+						<h1> Seus Quizzes </h1>
+						<button onclick="goToCreateQuizz()">+</button>
+					</div>
+					<div class="quizzes-list">
+						<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+							<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+							<div class="overlay"></div>
+							<div class="quizz-card-title"> ${quizz.title1} </div>
+						</div>
+						<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+							<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+							<div class="overlay"></div>
+							<div class="quizz-card-title"> ${quizz.title2} </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="all-quizzes">
+				<h1> Todos os Quizzes </h1>
+				<div class="quizzes-list">
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title1} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title2} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title3} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title4} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title5} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title6} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title7} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title8} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title9} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title10} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title11} </div>
+					</div>
+					<div class="quizz-card" onclick="showQuizz('${quizz.id}')">
+						<img src = "https://data.topquizz.com/distant/quizz/big/0/3/2/1/121230_8be2d83ec5.jpg">
+						<div class="overlay"></div>
+						<div class="quizz-card-title"> ${quizz.title12} </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		<script src="../script.js"></script>
 		<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 	</body>

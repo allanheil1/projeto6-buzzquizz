@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+// PAGE 1
+
+function goToCreateQuizz(){
+  window.open("/tela3/index.html", "_self");
+}
+>>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
 // PAGE 3
 
 let quizzTitle, quizzURLImage, quizzQuestionCount, quizzLevelCount;
@@ -39,26 +47,37 @@ function handleGoToQuizzPage2() {
 
         <form action="#">
         </form>
+
+        
     </div>
     `;
 
   mainContent.innerHTML = baseToPrint;
+<<<<<<< HEAD
   let toPrint = `
     <div class="form-container" id="second-form">
         <h1 class="form-title">Crie suas perguntas</h1>
+=======
+>>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
 
-        <form action="#">
-          <div class="question-container">
+  let mainFormContainer = document.getElementById('second-form');
+
+  let formContainer = document.querySelector("#second-form form");
+
+  for (let i = 1; i <= quizzQuestionCount; i++) {
+    if (i === 1) {
+      formContainer.innerHTML = `
+        <div class="question-container">
 			<h1 class="question-title">Pergunta 1</h1>
             <input
               type="text"
               placeholder="Texto da pergunta"
-              id="question-text"
+              id="question-text1"
             />
             <input
               type="text"
               placeholder="Cor de fundo da pergunta"
-              id="question-color"
+              id="question-color1"
             />
           </div>
 
@@ -67,12 +86,12 @@ function handleGoToQuizzPage2() {
             <input
               type="text"
               placeholder="Resposta correta"
-              id="answer-text"
+              id="answer-text1"
             />
             <input
               type="text"
               placeholder="URL da imagem"
-              id="question-image-URL"
+              id="question-image-URL1"
             />
           </div>
 
@@ -82,12 +101,12 @@ function handleGoToQuizzPage2() {
 				<input
 				type="text"
 				placeholder="Resposta incorreta 1"
-				id="answer-text"
+				id="wrong-answer-text"
 			  />
 			  <input
 				type="text"
 				placeholder="URL da imagem 1"
-				id="question-image-URL"
+				id="wrong-question-image-URL1.1"
 			  />
 			</div>
 
@@ -119,45 +138,186 @@ function handleGoToQuizzPage2() {
 			
           </div>
 		  
-		  		  
-        </form> 
-		
-		<div class="closed-form-container">
-			<h1 class="question-title">
-				Pergunta 2
-			</h1>
-
-			<button onclick="openQuestionEdit()">
-				<img src="../assets/edit-icon.svg" alt="">
-			</button>			
-		</div>
-
-		<div class="closed-form-container">
-			<h1 class="question-title">
-				Pergunta 3
-			</h1>
-
-			<button onclick="openQuestionEdit()">
-				<img src="../assets/edit-icon.svg" alt="">
-			</button>			
-		</div>
-		<button class="form-button" onclick="handleGoToQuizzPage3()">
-			Prosseguir pra criar níveis
-		  </button>     
+        `;
+    } else {
+      mainFormContainer.innerHTML += `
+      <div class="toOpen" >
+      <div class="closed-form-container" id="closed-container${i}">
+        <h1 class="question-title">
+          Pergunta ${i}
+        </h1>
+  
+        <button onclick="openCloseContainer(${i})">
+          <img src="../assets/edit-icon.svg" alt="">
+        </button>	
+        </div>
+        <form action="#" class="hidden" id="openned-container${i}">
+            <div class="question-container">
+        <h1 class="question-title">Pergunta ${i}</h1>
+              <input
+                type="text"
+                placeholder="Texto da pergunta"
+                id="question-text"
+              />
+              <input
+                type="text"
+                placeholder="Cor de fundo da pergunta"
+                id="question-color"
+              />
+            </div>
+  
+        <div class="question-container">
+        <h1 class="question-title">Resposta correta</h1>
+              <input
+                type="text"
+                placeholder="Resposta correta"
+                id="answer-text"
+              />
+              <input
+                type="text"
+                placeholder="URL da imagem"
+                id="question-image-URL"
+              />
+            </div>
+  
+            <div class="wrong-answer-container">
+        <h1 class="question-title">Respostas incorretas</h1>
+        <div class="wrong-answer">
+          <input
+          type="text"
+          placeholder="Resposta incorreta 1"
+          id="answer-text"
+          />
+          <input
+          type="text"
+          placeholder="URL da imagem 1"
+          id="question-image-URL"
+          />
+        </div>
+  
+        <div class="wrong-answer">
+          <input
+          type="text"
+          placeholder="Resposta incorreta 2"
+          id="answer-text"
+          />
+          <input
+          type="text"
+          placeholder="URL da imagem 2"
+          id="question-image-URL"
+          />
+        </div>
+  
+        <div class="wrong-answer">
+          <input
+          type="text"
+          placeholder="Resposta incorreta 3"
+          id="answer-text"
+          />
+          <input
+          type="text"
+          placeholder="URL da imagem 3"
+          id="question-image-URL"
+          />
+        </div>
+        
+            </div>
+        
+              
+          </form>
       </div>
+<<<<<<< HEAD
     `;
   mainContent.innerHTML = toPrint;
+=======
+  
+      `
+    }
+  }
+
+  mainFormContainer.innerHTML += `
+  <button class="form-button" onclick="handleGoToQuizzPage3()">
+	 		Prosseguir pra criar níveis
+	 	  </button> 
+  `
+
+  
+>>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
 }
 
 function verifyValuesQuizzSecondPage() {}
 
+<<<<<<< HEAD
 function handleGoToQuizzPage3() {
   let toPrint = `
+=======
+function openCloseContainer(value) {
+  let actualContainer = document.getElementById(`closed-container${value}`);
+  actualContainer.classList.add("hidden");
+  let expectedContainer = document.getElementById(`openned-container${value}`);
+  expectedContainer.classList.remove("hidden");
+}
+
+function handleGoToQuizzPage3() {
+  let baseToPrint = `
+>>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
     <div class="form-container" id="third-form">
         <h1 class="form-title">Agora, decida os níveis</h1>
 
         <form action="#">
-			<h1 class="question-title">Nível 1</h1>
+        </form>
+
+        
+    </div>
+    `;
+
+  mainContent.innerHTML = baseToPrint;
+
+  let mainFormContainer = document.getElementById('third-form');
+
+  let formContainer = document.querySelector("#third-form form");
+
+  for (let i = 1; i <= quizzLevelCount; i++) {
+    if (i === 1) {
+      formContainer.innerHTML = `
+      <h1 class="question-title">Nível 1</h1>
+      <input
+        type="text"
+        placeholder="Título do nível"
+        id="level-title"
+      />
+      <input
+        type="text"
+        placeholder="% de acerto mínima"
+        id="correct-percentage"
+      />
+      <input
+        type="text"
+        placeholder="URL da imagem do nível"
+        id="level-image-URL"
+      />
+      <textarea
+        cols="30"
+        rows="5"
+        placeholder="Descrição do nível"
+        id="level-description"
+      ></textarea>
+      `
+    } else {
+      mainFormContainer.innerHTML += `
+      <div class="toOpen" >
+      <div class="closed-form-container" id="closed-container${i}">
+			<h1 class="question-title">
+				Nível ${i}
+			</h1>
+
+			<button onclick="openCloseContainer(${i})">
+				<img src="../assets/edit-icon.svg" alt="">
+			</button>			
+		</div>
+
+    <form action="#" class="hidden" id="openned-container${i}">
+			<h1 class="question-title">Nível ${i}</h1>
           <input
             type="text"
             placeholder="Título do nível"
@@ -180,7 +340,11 @@ function handleGoToQuizzPage3() {
             id="level-description"
           ></textarea>
         </form>
+      </div>      
+      `
+    }
 
+<<<<<<< HEAD
 		<div class="closed-form-container">
 			<h1 class="question-title">
 				Nível 2
@@ -210,6 +374,24 @@ function handleGoToQuizzPage3() {
   mainContent.innerHTML = toPrint;
 }
 
+=======
+  }
+  mainFormContainer.innerHTML += `
+  <button class="form-button" onclick="handleGoToQuizzPage4()">
+    Finalizar Quizz
+	</button> 
+  `
+}
+
+function openLevelEdit(value) {
+  let actualContainer = document.getElementById(`closed-level-container${value}`);
+  console.log(actualContainer)
+  actualContainer.classList.add("hidden");
+  let expectedContainer = document.getElementById(`openned-level-container${value}`);
+  expectedContainer.classList.remove("hidden");
+}
+
+>>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
 function handleGoToQuizzPage4() {
   let toPrint = `
     <div class="form-container" id="first-form">
@@ -237,6 +419,7 @@ function handleGoToQuizzPage4() {
 }
 
 // PAGE 3 END
+<<<<<<< HEAD
 
 // PAGE 2
 let qtdPerguntas;
@@ -402,3 +585,5 @@ const botaoReiniciar = document.querySelector('.reiniciar')
     botaoHome.addEventListener("click", function(e){
         window.location = '../tela1/index.html'})
 // PAGE 2 END
+=======
+>>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
