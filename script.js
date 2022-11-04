@@ -6,7 +6,7 @@ let AllQuizzes = [];
 getQuizzes();
 
 function goToCreateQuizz(){
-  window.open("./tela3/index.html", "_self");
+  window.open("/projeto6-buzzquizz/tela3/index.html", "_self");
 }
 
 function getQuizzes(){
