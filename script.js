@@ -17,7 +17,7 @@ function getQuizzes(){
 }
 
 function failedToGetQuizzes(){
-  alert('Tivemos um erro inesperado ao carregar os Quizzes. Por favor, recarregue a página que a gente tenta de novo =)');
+  alert('Tivemos um erro inesperado ao carregar o(s) Quizz(es). Por favor, recarregue a página que a gente tenta de novo =)');
 }
 
 function sortAndCallRenderQuizzes(quizzesResponse){
@@ -134,7 +134,9 @@ function makeQuizzCardHTML(quizz){
 }
 //função que deve redirecionar para o Quizz
 function showQuizz(id){
-  //window.open(`/tela2/index.html, ${id}`);
+  const promise = axios.get(`'https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`);
+  promise.then(FuncaoDaVictoria);
+  promise.catch(failedToGetQuizzes);
 }
 
 // PAGE 1 END
