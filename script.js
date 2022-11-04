@@ -1,427 +1,13 @@
-<<<<<<< HEAD
-=======
 // PAGE 1
 
 function goToCreateQuizz(){
   window.open("/tela3/index.html", "_self");
 }
->>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
-// PAGE 3
 
-let quizzTitle, quizzURLImage, quizzQuestionCount, quizzLevelCount;
-
-let ErrorMessage = `
-Ocorreu um problema na validação do seu quizz. 
-Por favor, verifique se: 
-Seu título ficou entre 20 caracteres e 65 caracteres; 
-Se foi inserida uma URL válida na sua imagem; 
-Se selecionou pelo menos 3 perguntas;
-Se selecionou no mínimo 2 níveis.
-`;
-
-let mainContent = document.getElementById("main-content");
-
-function verifyValuesQuizzFirstPage() {
-  quizzTitle = document.getElementById("quizz-title").value;
-  quizzURLImage = document.getElementById("quizz-URL-Image").value;
-  quizzQuestionCount = document.getElementById("quizz-question-count").value;
-  quizzLevelCount = document.getElementById("quizz-level-count").value;
-
-  if (
-    quizzTitle.length < 20 ||
-    quizzTitle.length > 65 ||
-    !quizzURLImage.startsWith("https://") ||
-    quizzQuestionCount < 3 ||
-    quizzLevelCount < 2
-  ) {
-    alert(ErrorMessage);
-  } else {
-    handleGoToQuizzPage2();
-  }
-}
-
-function handleGoToQuizzPage2() {
-  let baseToPrint = `
-    <div class="form-container" id="second-form">
-        <h1 class="form-title">Crie suas perguntas</h1>
-
-        <form action="#">
-        </form>
-
-        
-    </div>
-    `;
-
-  mainContent.innerHTML = baseToPrint;
-<<<<<<< HEAD
-  let toPrint = `
-    <div class="form-container" id="second-form">
-        <h1 class="form-title">Crie suas perguntas</h1>
-=======
->>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
-
-  let mainFormContainer = document.getElementById('second-form');
-
-  let formContainer = document.querySelector("#second-form form");
-
-  for (let i = 1; i <= quizzQuestionCount; i++) {
-    if (i === 1) {
-      formContainer.innerHTML = `
-        <div class="question-container">
-			<h1 class="question-title">Pergunta 1</h1>
-            <input
-              type="text"
-              placeholder="Texto da pergunta"
-              id="question-text1"
-            />
-            <input
-              type="text"
-              placeholder="Cor de fundo da pergunta"
-              id="question-color1"
-            />
-          </div>
-
-		  <div class="question-container">
-			<h1 class="question-title">Resposta correta</h1>
-            <input
-              type="text"
-              placeholder="Resposta correta"
-              id="answer-text1"
-            />
-            <input
-              type="text"
-              placeholder="URL da imagem"
-              id="question-image-URL1"
-            />
-          </div>
-
-          <div class="wrong-answer-container">
-			<h1 class="question-title">Respostas incorretas</h1>
-			<div class="wrong-answer">
-				<input
-				type="text"
-				placeholder="Resposta incorreta 1"
-				id="wrong-answer-text"
-			  />
-			  <input
-				type="text"
-				placeholder="URL da imagem 1"
-				id="wrong-question-image-URL1.1"
-			  />
-			</div>
-
-			<div class="wrong-answer">
-				<input
-				type="text"
-				placeholder="Resposta incorreta 2"
-				id="answer-text"
-			  />
-			  <input
-				type="text"
-				placeholder="URL da imagem 2"
-				id="question-image-URL"
-			  />
-			</div>
-
-			<div class="wrong-answer">
-				<input
-				type="text"
-				placeholder="Resposta incorreta 3"
-				id="answer-text"
-			  />
-			  <input
-				type="text"
-				placeholder="URL da imagem 3"
-				id="question-image-URL"
-			  />
-			</div>
-			
-          </div>
-		  
-        `;
-    } else {
-      mainFormContainer.innerHTML += `
-      <div class="toOpen" >
-      <div class="closed-form-container" id="closed-container${i}">
-        <h1 class="question-title">
-          Pergunta ${i}
-        </h1>
-  
-        <button onclick="openCloseContainer(${i})">
-          <img src="../assets/edit-icon.svg" alt="">
-        </button>	
-        </div>
-        <form action="#" class="hidden" id="openned-container${i}">
-            <div class="question-container">
-        <h1 class="question-title">Pergunta ${i}</h1>
-              <input
-                type="text"
-                placeholder="Texto da pergunta"
-                id="question-text"
-              />
-              <input
-                type="text"
-                placeholder="Cor de fundo da pergunta"
-                id="question-color"
-              />
-            </div>
-  
-        <div class="question-container">
-        <h1 class="question-title">Resposta correta</h1>
-              <input
-                type="text"
-                placeholder="Resposta correta"
-                id="answer-text"
-              />
-              <input
-                type="text"
-                placeholder="URL da imagem"
-                id="question-image-URL"
-              />
-            </div>
-  
-            <div class="wrong-answer-container">
-        <h1 class="question-title">Respostas incorretas</h1>
-        <div class="wrong-answer">
-          <input
-          type="text"
-          placeholder="Resposta incorreta 1"
-          id="answer-text"
-          />
-          <input
-          type="text"
-          placeholder="URL da imagem 1"
-          id="question-image-URL"
-          />
-        </div>
-  
-        <div class="wrong-answer">
-          <input
-          type="text"
-          placeholder="Resposta incorreta 2"
-          id="answer-text"
-          />
-          <input
-          type="text"
-          placeholder="URL da imagem 2"
-          id="question-image-URL"
-          />
-        </div>
-  
-        <div class="wrong-answer">
-          <input
-          type="text"
-          placeholder="Resposta incorreta 3"
-          id="answer-text"
-          />
-          <input
-          type="text"
-          placeholder="URL da imagem 3"
-          id="question-image-URL"
-          />
-        </div>
-        
-            </div>
-        
-              
-          </form>
-      </div>
-<<<<<<< HEAD
-    `;
-  mainContent.innerHTML = toPrint;
-=======
-  
-      `
-    }
-  }
-
-  mainFormContainer.innerHTML += `
-  <button class="form-button" onclick="handleGoToQuizzPage3()">
-	 		Prosseguir pra criar níveis
-	 	  </button> 
-  `
-
-  
->>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
-}
-
-function verifyValuesQuizzSecondPage() {}
-
-<<<<<<< HEAD
-function handleGoToQuizzPage3() {
-  let toPrint = `
-=======
-function openCloseContainer(value) {
-  let actualContainer = document.getElementById(`closed-container${value}`);
-  actualContainer.classList.add("hidden");
-  let expectedContainer = document.getElementById(`openned-container${value}`);
-  expectedContainer.classList.remove("hidden");
-}
-
-function handleGoToQuizzPage3() {
-  let baseToPrint = `
->>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
-    <div class="form-container" id="third-form">
-        <h1 class="form-title">Agora, decida os níveis</h1>
-
-        <form action="#">
-        </form>
-
-        
-    </div>
-    `;
-
-  mainContent.innerHTML = baseToPrint;
-
-  let mainFormContainer = document.getElementById('third-form');
-
-  let formContainer = document.querySelector("#third-form form");
-
-  for (let i = 1; i <= quizzLevelCount; i++) {
-    if (i === 1) {
-      formContainer.innerHTML = `
-      <h1 class="question-title">Nível 1</h1>
-      <input
-        type="text"
-        placeholder="Título do nível"
-        id="level-title"
-      />
-      <input
-        type="text"
-        placeholder="% de acerto mínima"
-        id="correct-percentage"
-      />
-      <input
-        type="text"
-        placeholder="URL da imagem do nível"
-        id="level-image-URL"
-      />
-      <textarea
-        cols="30"
-        rows="5"
-        placeholder="Descrição do nível"
-        id="level-description"
-      ></textarea>
-      `
-    } else {
-      mainFormContainer.innerHTML += `
-      <div class="toOpen" >
-      <div class="closed-form-container" id="closed-container${i}">
-			<h1 class="question-title">
-				Nível ${i}
-			</h1>
-
-			<button onclick="openCloseContainer(${i})">
-				<img src="../assets/edit-icon.svg" alt="">
-			</button>			
-		</div>
-
-    <form action="#" class="hidden" id="openned-container${i}">
-			<h1 class="question-title">Nível ${i}</h1>
-          <input
-            type="text"
-            placeholder="Título do nível"
-            id="level-title"
-          />
-          <input
-            type="text"
-            placeholder="% de acerto mínima"
-            id="correct-percentage"
-          />
-          <input
-            type="text"
-            placeholder="URL da imagem do nível"
-            id="level-image-URL"
-          />
-          <textarea
-            cols="30"
-            rows="5"
-            placeholder="Descrição do nível"
-            id="level-description"
-          ></textarea>
-        </form>
-      </div>      
-      `
-    }
-
-<<<<<<< HEAD
-		<div class="closed-form-container">
-			<h1 class="question-title">
-				Nível 2
-			</h1>
-
-			<button onclick="openLevelEdit()">
-				<img src="../assets/edit-icon.svg" alt="">
-			</button>			
-		</div>
-
-		<div class="closed-form-container">
-			<h1 class="question-title">
-				Nível 3
-			</h1>
-
-			<button onclick="">
-				<img src="../assets/edit-icon.svg" alt="">
-			</button>			
-		</div>
-
-        <button class="form-button" onclick="handleGoToQuizzPage4()">
-          Finalizar Quizz
-        </button>
-      </div>
-    `;
-
-  mainContent.innerHTML = toPrint;
-}
-
-=======
-  }
-  mainFormContainer.innerHTML += `
-  <button class="form-button" onclick="handleGoToQuizzPage4()">
-    Finalizar Quizz
-	</button> 
-  `
-}
-
-function openLevelEdit(value) {
-  let actualContainer = document.getElementById(`closed-level-container${value}`);
-  console.log(actualContainer)
-  actualContainer.classList.add("hidden");
-  let expectedContainer = document.getElementById(`openned-level-container${value}`);
-  expectedContainer.classList.remove("hidden");
-}
-
->>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
-function handleGoToQuizzPage4() {
-  let toPrint = `
-    <div class="form-container" id="first-form">
-    <h1 class="form-title">Seu quizz está pronto!</h1>
-
-    <div class="final-quizz-container">
-        <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Hogwarts_model_studio_tour.jpg/1200px-Hogwarts_model_studio_tour.jpg" alt="">
-        <div class="gradient"></div>
-        <p>
-            O quão Potterhead é você?
-        </p>
-    </div>
-
-    <button class="form-button" onclick="handleGoToQuizzes()">
-      Acessar Quizz
-    </button>
-
-    <button class="home-button">
-        Voltar pra home
-    </button>
-  </div>
-    `;
-
-  mainContent.innerHTML = toPrint;
-}
-
-// PAGE 3 END
-<<<<<<< HEAD
+// PAGE 1 END
 
 // PAGE 2
+
 let qtdPerguntas;
 
 function responder() {
@@ -584,6 +170,358 @@ const botaoReiniciar = document.querySelector('.reiniciar')
     
     botaoHome.addEventListener("click", function(e){
         window.location = '../tela1/index.html'})
+
 // PAGE 2 END
-=======
->>>>>>> 1653b978b0b6dba254022c6af3881fe4488263b2
+
+// PAGE 3
+
+let quizzTitle, quizzURLImage, quizzQuestionCount, quizzLevelCount;
+
+let ErrorMessage = `
+Ocorreu um problema na validação do seu quizz. 
+Por favor, verifique se: 
+Seu título ficou entre 20 caracteres e 65 caracteres; 
+Se foi inserida uma URL válida na sua imagem; 
+Se selecionou pelo menos 3 perguntas;
+Se selecionou no mínimo 2 níveis.
+`;
+
+let mainContent = document.getElementById("main-content");
+
+function verifyValuesQuizzFirstPage() {
+  quizzTitle = document.getElementById("quizz-title").value;
+  quizzURLImage = document.getElementById("quizz-URL-Image").value;
+  quizzQuestionCount = document.getElementById("quizz-question-count").value;
+  quizzLevelCount = document.getElementById("quizz-level-count").value;
+
+  if (
+    quizzTitle.length < 20 ||
+    quizzTitle.length > 65 ||
+    !quizzURLImage.startsWith("https://") ||
+    quizzQuestionCount < 3 ||
+    quizzLevelCount < 2
+  ) {
+    alert(ErrorMessage);
+  } else {
+    handleGoToQuizzPage2();
+  }
+}
+
+function handleGoToQuizzPage2() {
+  let baseToPrint = `
+    <div class="form-container" id="second-form">
+        <h1 class="form-title">Crie suas perguntas</h1>
+        <form action="#">
+        </form>
+        
+    </div>
+    `;
+
+  mainContent.innerHTML = baseToPrint;
+
+  let mainFormContainer = document.getElementById('second-form');
+
+  let formContainer = document.querySelector("#second-form form");
+
+  for (let i = 1; i <= quizzQuestionCount; i++) {
+    if (i === 1) {
+      formContainer.innerHTML = `
+        <div class="question-container">
+			<h1 class="question-title">Pergunta 1</h1>
+            <input
+              type="text"
+              placeholder="Texto da pergunta"
+              id="question-text1"
+            />
+            <input
+              type="text"
+              placeholder="Cor de fundo da pergunta"
+              id="question-color1"
+            />
+          </div>
+		  <div class="question-container">
+			<h1 class="question-title">Resposta correta</h1>
+            <input
+              type="text"
+              placeholder="Resposta correta"
+              id="answer-text1"
+            />
+            <input
+              type="text"
+              placeholder="URL da imagem"
+              id="question-image-URL1"
+            />
+          </div>
+          <div class="wrong-answer-container">
+			<h1 class="question-title">Respostas incorretas</h1>
+			<div class="wrong-answer">
+				<input
+				type="text"
+				placeholder="Resposta incorreta 1"
+				id="wrong-answer-text"
+			  />
+			  <input
+				type="text"
+				placeholder="URL da imagem 1"
+				id="wrong-question-image-URL1.1"
+			  />
+			</div>
+			<div class="wrong-answer">
+				<input
+				type="text"
+				placeholder="Resposta incorreta 2"
+				id="answer-text"
+			  />
+			  <input
+				type="text"
+				placeholder="URL da imagem 2"
+				id="question-image-URL"
+			  />
+			</div>
+			<div class="wrong-answer">
+				<input
+				type="text"
+				placeholder="Resposta incorreta 3"
+				id="answer-text"
+			  />
+			  <input
+				type="text"
+				placeholder="URL da imagem 3"
+				id="question-image-URL"
+			  />
+			</div>
+			
+          </div>
+		  
+        `;
+    } else {
+      mainFormContainer.innerHTML += `
+      <div class="toOpen" >
+      <div class="closed-form-container" id="closed-container${i}">
+        <h1 class="question-title">
+          Pergunta ${i}
+        </h1>
+  
+        <button onclick="openCloseContainer(${i})">
+          <img src="../assets/edit-icon.svg" alt="">
+        </button>	
+        </div>
+        <form action="#" class="hidden" id="openned-container${i}">
+            <div class="question-container">
+        <h1 class="question-title">Pergunta ${i}</h1>
+              <input
+                type="text"
+                placeholder="Texto da pergunta"
+                id="question-text"
+              />
+              <input
+                type="text"
+                placeholder="Cor de fundo da pergunta"
+                id="question-color"
+              />
+            </div>
+  
+        <div class="question-container">
+        <h1 class="question-title">Resposta correta</h1>
+              <input
+                type="text"
+                placeholder="Resposta correta"
+                id="answer-text"
+              />
+              <input
+                type="text"
+                placeholder="URL da imagem"
+                id="question-image-URL"
+              />
+            </div>
+  
+            <div class="wrong-answer-container">
+        <h1 class="question-title">Respostas incorretas</h1>
+        <div class="wrong-answer">
+          <input
+          type="text"
+          placeholder="Resposta incorreta 1"
+          id="answer-text"
+          />
+          <input
+          type="text"
+          placeholder="URL da imagem 1"
+          id="question-image-URL"
+          />
+        </div>
+  
+        <div class="wrong-answer">
+          <input
+          type="text"
+          placeholder="Resposta incorreta 2"
+          id="answer-text"
+          />
+          <input
+          type="text"
+          placeholder="URL da imagem 2"
+          id="question-image-URL"
+          />
+        </div>
+  
+        <div class="wrong-answer">
+          <input
+          type="text"
+          placeholder="Resposta incorreta 3"
+          id="answer-text"
+          />
+          <input
+          type="text"
+          placeholder="URL da imagem 3"
+          id="question-image-URL"
+          />
+        </div>
+        
+            </div>
+        
+              
+          </form>
+      </div>
+  
+      `
+    }
+  }
+
+  mainFormContainer.innerHTML += `
+  <button class="form-button" onclick="handleGoToQuizzPage3()">
+	 		Prosseguir pra criar níveis
+	 	  </button> 
+  `
+
+  
+}
+
+function verifyValuesQuizzSecondPage() {}
+
+function openCloseContainer(value) {
+  let actualContainer = document.getElementById(`closed-container${value}`);
+  actualContainer.classList.add("hidden");
+  let expectedContainer = document.getElementById(`openned-container${value}`);
+  expectedContainer.classList.remove("hidden");
+}
+
+function handleGoToQuizzPage3() {
+  let baseToPrint = `
+    <div class="form-container" id="third-form">
+        <h1 class="form-title">Agora, decida os níveis</h1>
+        <form action="#">
+        </form>
+        
+    </div>
+    `;
+
+  mainContent.innerHTML = baseToPrint;
+
+  let mainFormContainer = document.getElementById('third-form');
+
+  let formContainer = document.querySelector("#third-form form");
+
+  for (let i = 1; i <= quizzLevelCount; i++) {
+    if (i === 1) {
+      formContainer.innerHTML = `
+      <h1 class="question-title">Nível 1</h1>
+      <input
+        type="text"
+        placeholder="Título do nível"
+        id="level-title"
+      />
+      <input
+        type="text"
+        placeholder="% de acerto mínima"
+        id="correct-percentage"
+      />
+      <input
+        type="text"
+        placeholder="URL da imagem do nível"
+        id="level-image-URL"
+      />
+      <textarea
+        cols="30"
+        rows="5"
+        placeholder="Descrição do nível"
+        id="level-description"
+      ></textarea>
+      `
+    } else {
+      mainFormContainer.innerHTML += `
+      <div class="toOpen" >
+      <div class="closed-form-container" id="closed-container${i}">
+			<h1 class="question-title">
+				Nível ${i}
+			</h1>
+			<button onclick="openCloseContainer(${i})">
+				<img src="../assets/edit-icon.svg" alt="">
+			</button>			
+		</div>
+    <form action="#" class="hidden" id="openned-container${i}">
+			<h1 class="question-title">Nível ${i}</h1>
+          <input
+            type="text"
+            placeholder="Título do nível"
+            id="level-title"
+          />
+          <input
+            type="text"
+            placeholder="% de acerto mínima"
+            id="correct-percentage"
+          />
+          <input
+            type="text"
+            placeholder="URL da imagem do nível"
+            id="level-image-URL"
+          />
+          <textarea
+            cols="30"
+            rows="5"
+            placeholder="Descrição do nível"
+            id="level-description"
+          ></textarea>
+        </form>
+      </div>      
+      `
+    }
+
+  }
+  mainFormContainer.innerHTML += `
+  <button class="form-button" onclick="handleGoToQuizzPage4()">
+    Finalizar Quizz
+	</button> 
+  `
+}
+
+function openLevelEdit(value) {
+  let actualContainer = document.getElementById(`closed-level-container${value}`);
+  console.log(actualContainer)
+  actualContainer.classList.add("hidden");
+  let expectedContainer = document.getElementById(`openned-level-container${value}`);
+  expectedContainer.classList.remove("hidden");
+}
+
+function handleGoToQuizzPage4() {
+  let toPrint = `
+    <div class="form-container" id="first-form">
+    <h1 class="form-title">Seu quizz está pronto!</h1>
+    <div class="final-quizz-container">
+        <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Hogwarts_model_studio_tour.jpg/1200px-Hogwarts_model_studio_tour.jpg" alt="">
+        <div class="gradient"></div>
+        <p>
+            O quão Potterhead é você?
+        </p>
+    </div>
+    <button class="form-button" onclick="handleGoToQuizzes()">
+      Acessar Quizz
+    </button>
+    <button class="home-button">
+        Voltar pra home
+    </button>
+  </div>
+    `;
+
+  mainContent.innerHTML = toPrint;
+}
+
+// PAGE 3 END
