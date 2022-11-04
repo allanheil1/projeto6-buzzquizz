@@ -82,7 +82,11 @@ function RenderQuizzes(){
 				</div>
   `;
   const elementAllQuizzes = document.getElementById("all-quizzes-html");
-  elementAllQuizzes.innerHTML = `${allQuizzesHTML}`;
+  elementAllQuizzes.innerHTML = `
+  <h1> Todos os Quizzes </h1>
+  <div class="quizzes-list" id = "all-quizzes-html">
+    ${allQuizzesHTML}
+  </div>`;
 }
 
 //função que monta o HTML da parte de quizzes de usuário, quando não há nenhum quizz do usuário
