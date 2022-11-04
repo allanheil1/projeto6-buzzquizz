@@ -117,6 +117,175 @@ function showQuizz(){
 }
 
 
+// PAGE 1 END
+
+// PAGE 2
+
+let qtdPerguntas;
+
+function responder() {
+  const quizz = document.querySelector("main");
+  // ALTERAR ID BASEADO NA TELA 1 !
+  axios
+    .get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/16233")
+    .then((response) => {
+      let item = response.data;
+
+      levelsArray = item.levels;
+
+      let add = `<div class="titulo">
+              <div class="black"><img src="${item.image}" alt="Titulo"></div>
+              <h1>${item.title}</h1>
+          </div>`;
+
+      qtdPerguntas = item.questions.length;
+      console.log(qtdPerguntas)
+
+      for (var i = 0; i < item.questions.length; i++) {
+        const quantidadeDeRespostas = item.questions[i].answers;
+        const sortido = quantidadeDeRespostas.sort(baguncar);
+
+        function baguncar() {
+          return 0.5 - Math.random();
+        }
+        add += `<div class="quizz">
+                  <div class="pergunta">
+                    <div class="cabecalho" style="background-color:${item.questions[i].color}">
+                      <p class="ctitulo">${item.questions[i].title}</p>
+                    </div>`;
+
+        let contador = 0;
+        let quantidadeDePerguntas = sortido.length;
+        for (var j = 0; j < quantidadeDePerguntas; j++) {
+          contador++;
+          if (contador == 1) {
+            add += `<div class="quadro">
+                        <div class="resposta ${sortido[j].isCorrectAnswer} quiz${i}${j}">
+                          <img src="${sortido[j].image}" alt="quiz${i}${j}">
+                          <p class="paragrafo">${sortido[j].text}</p>
+                        </div>`;
+            if (quantidadeDePerguntas == 3) {
+              add += `</div>
+                      </div>`;
+            }
+          }
+          if (contador == 2) {
+            add += `<div class="resposta ${sortido[j].isCorrectAnswer} quiz${i}${j}">
+                          <img src="${sortido[j].image}" alt="quiz${i}${j}">
+                          <p class="paragrafo">${sortido[j].text}</p>
+                        </div>
+                    </div>`;
+
+            if (quantidadeDePerguntas == 2 || j == 3) {
+              add += `</div>
+                      </div>`;
+            }
+
+            contador = 0;
+          }
+        }
+      }
+
+      quizz.innerHTML = add;
+    })
+
+    .catch((error) => {
+    });
+}
+const main = document.querySelector('main')
+let contador = 0;
+let contador2 = 1;
+main.addEventListener("click", function (e) {
+    let alt = e.srcElement.alt
+    console.log(alt)
+    if (!alt.includes('quiz') || alt.length == 0) {
+        return;
+    }
+
+    let resposta_click = document.querySelector(`.${alt}`)
+    resposta_click.classList.add("escolhido");
+
+    let resposta = document.querySelectorAll('.resposta')
+
+    for(let i = 0; i < resposta.length; i++){
+        if(!resposta[i].className.includes('escolhido'))
+            {
+                if(alt[4] == resposta[i].className.split('quiz')[1][0])
+                {
+                    resposta[i].classList.add("desabilitado");
+                }
+                
+            }
+        
+        if(resposta[i].className.includes('false'))
+        {
+            if(alt[4] == resposta[i].className.split('quiz')[1][0])
+            {
+                resposta[i].classList.add("errado");
+            }
+            
+        }
+
+        else if(resposta[i].className.includes('true'))
+        {
+            if(alt[4] == resposta[i].className.split('quiz')[1][0])
+            {
+                resposta[i].classList.add("certo");
+            }
+        }
+    }
+    function scrollar(){
+      let proximaResposta = document.querySelector(`.quadro div:nth-child(${contador2})`);
+      console.log(proximaResposta)
+      contador2++;
+      proximaResposta.scrollIntoView(true, {block: 'end',  behavior: 'smooth' });
+      console.log(contador2 + ' contagens')
+     
+    }
+    setTimeout(scrollar(), 2000)
+});
+
+responder();
+
+const botaoReiniciar = document.querySelector('.reiniciar')
+
+    botaoReiniciar.addEventListener("click", function(e)
+    {
+    const reiniciar = document.querySelector('div:last-child');
+
+    reiniciar.scrollIntoView({block: "end", behavior: "smooth"});
+
+    let resposta = document.querySelectorAll('.resposta')
+
+    for(i = 0; i < resposta.length; i++){
+
+        if(resposta[i].className.includes('certo')){
+            resposta[i].classList.remove('certo')
+    }
+        else if(resposta[i].className.includes('errado')){
+            resposta[i].classList.remove('errado')
+    }
+
+    if(resposta[i].className.includes('desabilitado')){
+            resposta[i].classList.remove('desabilitado')
+    }
+        else if(resposta[i].className.includes('escolhido')){
+            resposta[i].classList.remove('escolhido')
+    }}
+    final = document.querySelector('.final')
+    remover = final.classList.add("escondido")
+    contador2 = 1;
+    responder()
+    })
+
+
+    const botaoHome = document.querySelector('.home')
+    
+    botaoHome.addEventListener("click", function(e){
+        window.location = '../tela1/index.html'})
+
+// PAGE 2 END
+
 // PAGE 3
 
 let quizzTitle, quizzURLImage, quizzQuestionCount, quizzLevelCount;
@@ -155,10 +324,8 @@ function handleGoToQuizzPage2() {
   let baseToPrint = `
     <div class="form-container" id="second-form">
         <h1 class="form-title">Crie suas perguntas</h1>
-
         <form action="#">
         </form>
-
         
     </div>
     `;
@@ -185,7 +352,6 @@ function handleGoToQuizzPage2() {
               id="question-color1"
             />
           </div>
-
 		  <div class="question-container">
 			<h1 class="question-title">Resposta correta</h1>
             <input
@@ -199,7 +365,6 @@ function handleGoToQuizzPage2() {
               id="question-image-URL1"
             />
           </div>
-
           <div class="wrong-answer-container">
 			<h1 class="question-title">Respostas incorretas</h1>
 			<div class="wrong-answer">
@@ -214,7 +379,6 @@ function handleGoToQuizzPage2() {
 				id="wrong-question-image-URL1.1"
 			  />
 			</div>
-
 			<div class="wrong-answer">
 				<input
 				type="text"
@@ -227,7 +391,6 @@ function handleGoToQuizzPage2() {
 				id="question-image-URL"
 			  />
 			</div>
-
 			<div class="wrong-answer">
 				<input
 				type="text"
@@ -358,10 +521,8 @@ function handleGoToQuizzPage3() {
   let baseToPrint = `
     <div class="form-container" id="third-form">
         <h1 class="form-title">Agora, decida os níveis</h1>
-
         <form action="#">
         </form>
-
         
     </div>
     `;
@@ -405,12 +566,10 @@ function handleGoToQuizzPage3() {
 			<h1 class="question-title">
 				Nível ${i}
 			</h1>
-
 			<button onclick="openCloseContainer(${i})">
 				<img src="../assets/edit-icon.svg" alt="">
 			</button>			
 		</div>
-
     <form action="#" class="hidden" id="openned-container${i}">
 			<h1 class="question-title">Nível ${i}</h1>
           <input
@@ -459,7 +618,6 @@ function handleGoToQuizzPage4() {
   let toPrint = `
     <div class="form-container" id="first-form">
     <h1 class="form-title">Seu quizz está pronto!</h1>
-
     <div class="final-quizz-container">
         <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Hogwarts_model_studio_tour.jpg/1200px-Hogwarts_model_studio_tour.jpg" alt="">
         <div class="gradient"></div>
@@ -467,11 +625,9 @@ function handleGoToQuizzPage4() {
             O quão Potterhead é você?
         </p>
     </div>
-
     <button class="form-button" onclick="handleGoToQuizzes()">
       Acessar Quizz
     </button>
-
     <button class="home-button">
         Voltar pra home
     </button>
