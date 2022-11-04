@@ -46,7 +46,12 @@ function sortUserQuizzes(ServerQuizzesList){
 
 function quizzFromUser(quizzToBeAnalysed){
   //implementar função que verifica que é do usuário ou não
-  return false;
+  if(quizzToBeAnalysed.id % 2 == 0){
+    return false;
+  }else{
+    return true;
+  }
+
 }
 
 function RenderQuizzes(){
@@ -64,10 +69,19 @@ function RenderQuizzes(){
   //chamamos a função para montar o HTML da parte que mostra Todos os Quizzes
   allQuizzesHTML = makeAllQuizzesCardsHTML();
 
-  const elementUserQuizzes = document.getElementById("user-quizzes");
-  elementUserQuizzes.innerHTML = `${userQuizzesHTML}`;
-
-  const elementAllQuizzes = document.getElementById("all-quizzes");
+  const elementUserQuizzes = document.getElementById("user-quizzes-html");
+  elementUserQuizzes.innerHTML = `
+  <div class="have-user-quizzes">
+					<div class="user-quizzes-header">
+						<h1> Seus Quizzes </h1>
+						<button onclick="goToCreateQuizz()">+</button>
+					</div>
+					<div class="quizzes-list">
+            ${userQuizzesHTML}
+					</div>
+				</div>
+  `;
+  const elementAllQuizzes = document.getElementById("all-quizzes-html");
   elementAllQuizzes.innerHTML = `${allQuizzesHTML}`;
 }
 
