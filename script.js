@@ -47,11 +47,12 @@ function sortUserQuizzes(ServerQuizzesList){
 function quizzFromUser(quizzToBeAnalysed){
   //implementar função que verifica que é do usuário ou não
   if(quizzToBeAnalysed.id % 2 == 0){
+    //caso não seja do usuário, retorna false
     return false;
   }else{
+    //caso seja do usuário, retorna true
     return true;
   }
-
 }
 
 function RenderQuizzes(){
@@ -69,6 +70,7 @@ function RenderQuizzes(){
   //chamamos a função para montar o HTML da parte que mostra Todos os Quizzes
   allQuizzesHTML = makeAllQuizzesCardsHTML();
 
+  //populando o HTML da seção de Quizzes do Usuário
   const elementUserQuizzes = document.getElementById("user-quizzes-html");
   elementUserQuizzes.innerHTML = `
   <div class="have-user-quizzes">
@@ -81,6 +83,7 @@ function RenderQuizzes(){
 					</div>
 				</div>
   `;
+  //populando o HTML da seção de Todos os Quizzes
   const elementAllQuizzes = document.getElementById("all-quizzes-html");
   elementAllQuizzes.innerHTML = `
   <h1> Todos os Quizzes </h1>
@@ -129,11 +132,10 @@ function makeQuizzCardHTML(quizz){
   </div>
   `;
 }
-
-function showQuizz(){
-  //função que deve redirecionar para o Quizz
+//função que deve redirecionar para o Quizz
+function showQuizz(id){
+  //window.open(`/tela2/index.html, ${id}`);
 }
-
 
 // PAGE 1 END
 
