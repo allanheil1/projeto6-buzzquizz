@@ -1,3 +1,11 @@
+// PAGE 3 GLOBAL VARIABLES
+let quizzTitle, quizzURLImage, quizzQuestionCount, quizzLevelCount;
+let mainContent = document.getElementById("main-content");
+let questionsObjectArray = [];
+let answersObjectArray = [];
+let levelsObjectArray = [];
+let levelInnerObject = {};
+
 // PAGE 1
 
 let UserQuizzes = [];
@@ -361,9 +369,10 @@ botaoHome.addEventListener("click", function (e) {
 
 // PAGE 3
 
-let quizzTitle, quizzURLImage, quizzQuestionCount, quizzLevelCount;
 
-let ErrorMessage = `
+function verifyValuesQuizzFirstPage() {
+
+  let ErrorMessage = `
 Ocorreu um problema na validação do seu quizz. 
 Por favor, verifique se: 
 Seu título ficou entre 20 caracteres e 65 caracteres; 
@@ -372,9 +381,6 @@ Se selecionou pelo menos 3 perguntas;
 Se selecionou no mínimo 2 níveis.
 `;
 
-let mainContent = document.getElementById("main-content");
-
-function verifyValuesQuizzFirstPage() {
   quizzTitle = document.getElementById("quizz-title").value;
   quizzURLImage = document.getElementById("quizz-URL-Image").value;
   quizzQuestionCount = document.getElementById("quizz-question-count").value;
@@ -584,8 +590,7 @@ function handleGoToQuizzPage2() {
 
 
 
-let questionsObjectArray = [];
-let answersObjectArray = [];
+
 
 
 function verifyValuesQuizzSecondPage() {
@@ -640,7 +645,8 @@ function verifyValuesQuizzSecondPage() {
   
 }
 
-let questionErrorMessage = `
+function handleInvalidQuizzValues () {
+  let questionErrorMessage = `
 Ocorreu um problema na validação das suas perguntas. 
 Por favor, verifique se: 
 Sua pergunta tem, no mínimo, 20 caracteres; 
@@ -650,7 +656,6 @@ Se foi inserida uma URL válida na sua imagem;
 Se inseriu pelo menos 1 resposta correta e 1 resposta errada em cada pergunta.
 `;
 
-function handleInvalidQuizzValues () {
   alert(questionErrorMessage)
 }
 
@@ -752,29 +757,47 @@ function handleGoToQuizzPage3() {
   `
 }
 
-let levelsObjectArray = [];
-let levelInnerObject = {};
+
 
 function verifyValuesQuizzThirdPage () {
   for (let i = 1; i <= quizzLevelCount; i++) {
    
-    let levelTitle = document.querySelectorAll(`.identifyLevelForm${i} #quizz-level-title`);
+    let levelTitle = document.querySelector(`.identifyLevelForm${i} #quizz-level-title`).value;
     console.log(levelTitle)
-    let levelPercentage = document.querySelectorAll(`.identifyLevelForm${i} #quizz-level-percentage`).value;
+    let levelPercentage = document.querySelector(`.identifyLevelForm${i} #quizz-level-percentage`).value;
     console.log(levelPercentage)
-    let levelImageURL = document.querySelectorAll(`.identifyLevelForm${i} #quizz-level-image`).value;
+    let levelImageURL = document.querySelector(`.identifyLevelForm${i} #quizz-level-image`).value;
     console.log(levelImageURL)
-    let levelDescription = document.querySelectorAll(`.identifyLevelForm${i} #quizz-level-description`).value;
+    let levelDescription = document.querySelector(`.identifyLevelForm${i} #quizz-level-description`).value;
     console.log(levelDescription)
 
-
-    
+    levelInnerObject = {level: levelTitle, percentage: levelPercentage, image: levelImageURL, description: levelDescription}
+    levelsObjectArray.push(levelInnerObject)
+    levelInnerObject = {}
   }
 
 
   console.log(levelsObjectArray)
 
-  handleGoToQuizzPage4(levelsObjectArray.image)
+  validateLevelData(levelsObjectArray);
+
+  //handleGoToQuizzPage4(levelsObjectArray.image)
+}
+
+function validateLevelData(value) {
+  console.log('valor: '+value[1].level.length)
+  for (let i = 0; i < value.length; i++) {
+    for (let j = 0; j < value[i].length; j++) {
+      if (value[i].level.length < 10 ||
+          (value[i].percentage < 0 && value[i].percentage > 100) ||
+          !value[i].image.startsWith("https://") ||
+          value[i].description.length < 30
+        ) {
+        levelsObjectArray = {}
+        console.log('erro validação')
+      } 
+    }
+  }
 }
 
 function openLevelEdit(value) {
