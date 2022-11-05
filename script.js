@@ -429,7 +429,7 @@ function handleGoToQuizzPage2() {
             <input
               type="text"
               placeholder="Cor de fundo da pergunta"
-              id="question-color"
+              id="quizz-question-color"
             />
           </div>
 		  <div class="question-container">
@@ -442,7 +442,7 @@ function handleGoToQuizzPage2() {
             <input
               type="text"
               placeholder="URL da imagem"
-              id="question-image-URL1"
+              id="quizz-correct-answer-image"
             />
           </div>
           <div class="wrong-answer-container">
@@ -456,19 +456,19 @@ function handleGoToQuizzPage2() {
 			  <input
 				type="text"
 				placeholder="URL da imagem 1"
-				id="wrong-question-image-URL1.1"
+				id="quizz-wrong-answer-image1"
 			  />
 			</div>
 			<div class="wrong-answer">
 				<input
 				type="text"
 				placeholder="Resposta incorreta 2"
-				id="quizz-wrong-answer-text1"
+				id="quizz-wrong-answer-text2"
 			  />
 			  <input
 				type="text"
 				placeholder="URL da imagem 2"
-				id="question-image-URL"
+				id="quizz-wrong-answer-image2"
 			  />
 			</div>
 			<div class="wrong-answer">
@@ -480,7 +480,7 @@ function handleGoToQuizzPage2() {
 			  <input
 				type="text"
 				placeholder="URL da imagem 3"
-				id="question-image-URL"
+				id="quizz-wrong-answer-image3"
 			  />
 			</div>
 			
@@ -524,7 +524,7 @@ function handleGoToQuizzPage2() {
               <input
                 type="text"
                 placeholder="URL da imagem"
-                id="quizz-correct-answer-image-URL"
+                id="quizz-correct-answer-image"
               />
             </div>
   
@@ -539,7 +539,7 @@ function handleGoToQuizzPage2() {
           <input
           type="text"
           placeholder="URL da imagem 1"
-          id="quizz-wrong-answer-image-URL"
+          id="quizz-wrong-answer-image1"
           />
         </div>
   
@@ -552,7 +552,7 @@ function handleGoToQuizzPage2() {
           <input
           type="text"
           placeholder="URL da imagem 2"
-          id="question-image-URL"
+          id="quizz-wrong-answer-image2"
           />
         </div>
   
@@ -565,7 +565,7 @@ function handleGoToQuizzPage2() {
           <input
           type="text"
           placeholder="URL da imagem 3"
-          id="question-image-URL"
+          id="quizz-wrong-answer-image3"
           />
         </div>
         
@@ -589,53 +589,56 @@ function handleGoToQuizzPage2() {
 }
 
 
-
-
-
-
 function verifyValuesQuizzSecondPage() {
 
   for (let i = 1 ; i <= quizzQuestionCount; i++) {
     console.log('entrou for')
-    document.querySelectorAll(`.identifyQuestionForm${i} #quizz-question-text`)
-    .forEach((e) => {
-      if (e.value !== '') {
-        questionsObjectArray.push({text: e.value, color: e.nextElementSibling.value});
-      } 
-    })
+    let questionText = document.querySelector(`.identifyQuestionForm${i} #quizz-question-text`).value;
+    console.log(questionText);
+   
+    let questionColor = document.querySelector(`.identifyQuestionForm${i} #quizz-question-color`).value;
+    console.log(questionColor);
 
+    questionsObjectArray.push({text: questionText, color: questionColor});
     
-    document.querySelectorAll(`.identifyQuestionForm${i} #quizz-correct-answer-text`)
-    .forEach((e) => {
-      if (e.value !== '' ) {
-        qtdRespostasAdd++
-        answersObjectArray.push({text: e.value, image: e.nextElementSibling.value, isCorrectAnswer: true});
-      }
-    })
+    let questionCorrectAnswer = document.querySelector(`.identifyQuestionForm${i} #quizz-correct-answer-text`).value;
+    console.log(questionCorrectAnswer);
 
-      document.querySelectorAll(`.identifyQuestionForm${i} #quizz-wrong-answer-text1`)
-      .forEach((e) => {
-        if (e.value !== '') {
-          qtdRespostasAdd++
-          answersObjectArray.push({text: e.value, image: e.nextElementSibling.value, isCorrectAnswer: false});
-        } 
-      })
+    let questionCorrectAnswerImage = document.querySelector(`.identifyQuestionForm${i} #quizz-correct-answer-image`).value;
+    console.log(questionCorrectAnswerImage);
 
-      document.querySelectorAll(`.identifyQuestionForm${i} #quizz-wrong-answer-text2`)
-      .forEach((e) => {
-        if (e.value !== '') {
-          qtdRespostasAdd++
-          answersObjectArray.push({text: e.value, image: e.nextElementSibling.value, isCorrectAnswer: false});
-        }
-      })
+    answersObjectArray.push({text: questionCorrectAnswer, image: questionCorrectAnswerImage, isCorrectAnswer: true})
 
-      document.querySelectorAll(`.identifyQuestionForm${i} #quizz-wrong-answer-text3`)
-      .forEach((e) => {
-        if (e.value !== '') {
-          qtdRespostasAdd++
-          answersObjectArray.push({text: e.value, image: e.nextElementSibling.value, isCorrectAnswer: false});
-        }
-      })
+    let questionWrongAnswer1 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-text1`).value;
+    console.log(questionWrongAnswer1);
+
+    let questionWrongAnswerImage1 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-image1`).value;
+    console.log(questionWrongAnswerImage1);
+
+    if (questionWrongAnswer1 !== '' && questionWrongAnswerImage1 !== '') {
+      answersObjectArray.push({text: questionWrongAnswer1, image: questionWrongAnswerImage1, isCorrectAnswer: false});
+    }
+
+    let questionWrongAnswer2 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-text2`).value;
+    console.log(questionWrongAnswer2);
+
+    let questionWrongAnswerImage2 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-image2`).value;
+    console.log(questionWrongAnswerImage2);
+
+    if (questionWrongAnswer2 !== '' && questionWrongAnswerImage2 !== '') {
+      answersObjectArray.push({text: questionWrongAnswer2, image: questionWrongAnswerImage2, isCorrectAnswer: false});
+    }
+
+    let questionWrongAnswer3 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-text3`).value;
+    console.log(questionWrongAnswer3);
+
+    let questionWrongAnswerImage3 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-image3`).value;
+    console.log(questionWrongAnswerImage3);
+
+    if (questionWrongAnswer3 !== '' && questionWrongAnswerImage3 !== '') {
+      answersObjectArray.push({text: questionWrongAnswer3, image: questionWrongAnswerImage3, isCorrectAnswer: false});
+    }
+
 
     }  
     console.log(answersObjectArray)
@@ -781,23 +784,46 @@ function verifyValuesQuizzThirdPage () {
 
   validateLevelData(levelsObjectArray);
 
-  //handleGoToQuizzPage4(levelsObjectArray.image)
+  
 }
 
 function validateLevelData(value) {
-  console.log('valor: '+value[1].level.length)
+  console.log('valor: '+value.length)
+
+  
+  let hasZero = true;
+
   for (let i = 0; i < value.length; i++) {
-    for (let j = 0; j < value[i].length; j++) {
-      if (value[i].level.length < 10 ||
+    
+      console.log('entrou for interno')
+      if (
+          value[i].level.length < 10 ||
           (value[i].percentage < 0 && value[i].percentage > 100) ||
           !value[i].image.startsWith("https://") ||
-          value[i].description.length < 30
+          value[i].description.length < 30 ||
+          hasZero === false
         ) {
         levelsObjectArray = {}
-        console.log('erro validação')
-      } 
+        handleInvalidLevelValues()
+      } else {
+        handleGoToQuizzPage4(quizzURLImage)
+      }
     }
-  }
+  
+}
+
+function handleInvalidLevelValues () {
+  let questionErrorMessage = `
+Ocorreu um problema na validação das suas perguntas. 
+Por favor, verifique se: 
+Seu título tem, no mínimo, 10 caracteres; 
+A porcentagem de acerto deve ficar entre 0 e 100;
+Se foi inserida uma URL válida na sua imagem; 
+A descrição do nível deve ter, no mínimo, 30 caracteres;
+É necessário que exista pelo menos um nível cuja porcentagem de acerto mínima seja 0%.
+`;
+
+  alert(questionErrorMessage)
 }
 
 function openLevelEdit(value) {
