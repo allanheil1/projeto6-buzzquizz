@@ -13,22 +13,26 @@ let AllQuizzes = [];
 
 getQuizzes();
 
-function goToCreateQuizz(){
+function goToCreateQuizz() {
   window.open("/projeto6-buzzquizz/tela3/index.html", "_self");
 }
 
-function getQuizzes(){
-  const promise = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
+function getQuizzes() {
+  const promise = axios.get(
+    "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes"
+  );
 
   promise.then(sortAndCallRenderQuizzes);
   promise.catch(failedToGetQuizzes);
 }
 
-function failedToGetQuizzes(){
-  alert('Tivemos um erro inesperado ao carregar o(s) Quizz(es). Por favor, recarregue a página que a gente tenta de novo =)');
+function failedToGetQuizzes() {
+  alert(
+    "Tivemos um erro inesperado ao carregar o(s) Quizz(es). Por favor, recarregue a página que a gente tenta de novo =)"
+  );
 }
 
-function sortAndCallRenderQuizzes(quizzesResponse){
+function sortAndCallRenderQuizzes(quizzesResponse) {
   //essa função deve separar os quizzes entre quizzes do server e quizzes do usuario, e só então chamar o renderiza
 
   const ServerQuizzes = quizzesResponse.data;
@@ -38,36 +42,36 @@ function sortAndCallRenderQuizzes(quizzesResponse){
   RenderQuizzes();
 }
 
-function sortUserQuizzes(ServerQuizzesList){
-  for(let i = 0; i < ServerQuizzesList.length; i++){
+function sortUserQuizzes(ServerQuizzesList) {
+  for (let i = 0; i < ServerQuizzesList.length; i++) {
     const singleQuizz = ServerQuizzesList[i];
     //agora devemos verificar se esse quizz pertence ao usuario ou não
-    if(quizzFromUser(singleQuizz)){
+    if (quizzFromUser(singleQuizz)) {
       //caso true (quizz é do usuário), popula a lista de quizzes de usuário
       UserQuizzes.push(singleQuizz);
-    }else{
+    } else {
       //caso false (quizz não é do usuário), popula a lista de quizzes gerais
       AllQuizzes.push(singleQuizz);
     }
   }
 }
 
-function quizzFromUser(quizzToBeAnalysed){
+function quizzFromUser(quizzToBeAnalysed) {
   //implementar função que verifica que é do usuário ou não
-  if(quizzToBeAnalysed.id % 2 == 0){
+  if (quizzToBeAnalysed.id % 2 == 0) {
     //caso não seja do usuário, retorna false
     return false;
-  }else{
+  } else {
     //caso seja do usuário, retorna true
     return true;
   }
 }
 
-function RenderQuizzes(){
-  let userQuizzesHTML = '';
-  let allQuizzesHTML = '';
+function RenderQuizzes() {
+  let userQuizzesHTML = "";
+  let allQuizzesHTML = "";
 
-  if(UserQuizzes.length === 0){
+  if (UserQuizzes.length === 0) {
     //caso não tenha quizzes do usuário, o HTML a ser montado deve ser aquele com botão grande
     userQuizzesHTML = makeEmptyUserQuizzesHTML();
   } else {
@@ -101,7 +105,7 @@ function RenderQuizzes(){
 }
 
 //função que monta o HTML da parte de quizzes de usuário, quando não há nenhum quizz do usuário
-function makeEmptyUserQuizzesHTML(){
+function makeEmptyUserQuizzesHTML() {
   return `
   <div class="empty-user-quizzes">
     <h1>Você não criou nenhum quizz ainda :(</h1>
@@ -111,27 +115,27 @@ function makeEmptyUserQuizzesHTML(){
 }
 
 //função que monta o HTML da lista de quizzes de usuário
-function makeUserQuizzesCardsHTML(){
-  let UserQuizzesCardsHTML = '';
+function makeUserQuizzesCardsHTML() {
+  let UserQuizzesCardsHTML = "";
   //para cada quizz de usuário, monta o html correspondente a ele
-  for(let i = 0; i < UserQuizzes.length; i++){
+  for (let i = 0; i < UserQuizzes.length; i++) {
     UserQuizzesCardsHTML += makeQuizzCardHTML(UserQuizzes[i]);
   }
   return UserQuizzesCardsHTML;
 }
 
 //função que monta o HTML da lista de todos os quizzes
-function makeAllQuizzesCardsHTML(){
-  let AllQuizzesCardsHTML = '';
+function makeAllQuizzesCardsHTML() {
+  let AllQuizzesCardsHTML = "";
   //para cada quizz geral, monta o html correspondente a ele
-  for(let i = 0; i < AllQuizzes.length; i++){
+  for (let i = 0; i < AllQuizzes.length; i++) {
     AllQuizzesCardsHTML += makeQuizzCardHTML(AllQuizzes[i]);
   }
   return AllQuizzesCardsHTML;
 }
 
 //função que monta um card de um quizz
-function makeQuizzCardHTML(quizz){
+function makeQuizzCardHTML(quizz) {
   return `
   <div class="quizz-card" onclick="showQuizz('${quizz.id}')">
     <img src = "${quizz.image}">
@@ -141,8 +145,10 @@ function makeQuizzCardHTML(quizz){
   `;
 }
 //função que deve redirecionar para o Quizz
-function showQuizz(id){
-  const promise = axios.get(`'https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`);
+function showQuizz(id) {
+  const promise = axios.get(
+    `'https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`
+  );
   promise.then(FuncaoDaVictoria);
   promise.catch(failedToGetQuizzes);
 }
@@ -173,7 +179,7 @@ function responder() {
           </div>`;
 
       qtdPerguntas = item.questions.length;
-      console.log(qtdPerguntas)
+      console.log(qtdPerguntas);
 
       for (var i = 0; i < item.questions.length; i++) {
         const quantidadeDeRespostas = item.questions[i].answers;
@@ -223,76 +229,72 @@ function responder() {
       quizz.innerHTML = add;
     })
 
-    .catch((error) => {
-    });
+    .catch((error) => {});
 }
 
-const main = document.querySelector('main')
+const main = document.querySelector("main");
 let contador = 0;
 let contador2 = 1;
 
 main.addEventListener("click", function (e) {
+  let alt = e.srcElement.alt;
 
-  let alt = e.srcElement.alt
-
-  if (!alt.includes('quiz') || alt.length == 0) {
+  if (!alt.includes("quiz") || alt.length == 0) {
     return;
   }
 
-  let resposta_click = document.querySelector(`.${alt}`)
+  let resposta_click = document.querySelector(`.${alt}`);
   resposta_click.classList.add("escolhido");
 
-  let resposta = document.querySelectorAll('.resposta')
+  let resposta = document.querySelectorAll(".resposta");
 
   for (let i = 0; i < resposta.length; i++) {
-    if (!resposta[i].className.includes('escolhido')) {
-      if (alt[4] == resposta[i].className.split('quiz')[1][0]) {
+    if (!resposta[i].className.includes("escolhido")) {
+      if (alt[4] == resposta[i].className.split("quiz")[1][0]) {
         resposta[i].classList.add("desabilitado");
       }
-
     }
 
-    if (resposta[i].className.includes('false')) {
-      if (alt[4] == resposta[i].className.split('quiz')[1][0]) {
+    if (resposta[i].className.includes("false")) {
+      if (alt[4] == resposta[i].className.split("quiz")[1][0]) {
         resposta[i].classList.add("errado");
       }
-
-    }
-
-    else if (resposta[i].className.includes('true')) {
-      if (alt[4] == resposta[i].className.split('quiz')[1][0]) {
+    } else if (resposta[i].className.includes("true")) {
+      if (alt[4] == resposta[i].className.split("quiz")[1][0]) {
         resposta[i].classList.add("certo");
       }
     }
   }
 
   for (let i = 0; i < resposta.length; i++) {
-    if (resposta[i].className.includes('escolhido') && resposta[i].className.includes('certo')) {
-      if (alt[4] == resposta[i].className.split('quiz')[1][0]) {
+    if (
+      resposta[i].className.includes("escolhido") &&
+      resposta[i].className.includes("certo")
+    ) {
+      if (alt[4] == resposta[i].className.split("quiz")[1][0]) {
         resultado++;
       }
     }
   }
 
-  resultadoFinal = Math.round((resultado / qtdPerguntas) * 100)
+  resultadoFinal = Math.round((resultado / qtdPerguntas) * 100);
 
   QuestoesRespondidas++;
 
   if (QuestoesRespondidas == qtdPerguntas) {
     let array = [];
     for (let i = 0; i < levelsArray.length; i++) {
-      array.push(Number(levelsArray[i].minValue))
+      array.push(Number(levelsArray[i].minValue));
     }
 
-    let final = document.querySelector('main')
+    let final = document.querySelector("main");
     let add2 = `<div class="final">`;
-
 
     let posicao;
 
     for (let i = 0; i < array.length; i++) {
       if (resultadoFinal >= array[i]) {
-        posicao = i
+        posicao = i;
       }
     }
     add2 += `<div class="topo">
@@ -308,70 +310,64 @@ main.addEventListener("click", function (e) {
                 </div>
                 </div>`;
 
-    final.innerHTML += add2
-
+    final.innerHTML += add2;
   }
 
- function scrollar() {
-    let proximaResposta = document.querySelector(`.quadro div:nth-child(${contador2})`);
-    console.log(proximaResposta)
+  function scrollar() {
+    let proximaResposta = document.querySelector(
+      `.quadro div:nth-child(${contador2})`
+    );
+    console.log(proximaResposta);
     contador2++;
-    proximaResposta.scrollIntoView(true, { block: 'end', behavior: 'smooth' });
-    console.log(contador2 + ' contagens')
-
+    proximaResposta.scrollIntoView(true, { block: "end", behavior: "smooth" });
+    console.log(contador2 + " contagens");
   }
 
-  setTimeout(scrollar(), 2000)
-
-}); 
+  setTimeout(scrollar(), 2000);
+});
 
 responder();
 
-const botaoReiniciar = document.querySelector('.reiniciar')
+const botaoReiniciar = document.querySelector(".reiniciar");
 
 botaoReiniciar.addEventListener("click", function (e) {
-  const reiniciar = document.querySelector('div:last-child');
+  const reiniciar = document.querySelector("div:last-child");
 
   reiniciar.scrollIntoView({ block: "end", behavior: "smooth" });
 
-  let resposta = document.querySelectorAll('.resposta')
+  let resposta = document.querySelectorAll(".resposta");
 
   for (i = 0; i < resposta.length; i++) {
-
-    if (resposta[i].className.includes('certo')) {
-      resposta[i].classList.remove('certo')
-    }
-    else if (resposta[i].className.includes('errado')) {
-      resposta[i].classList.remove('errado')
+    if (resposta[i].className.includes("certo")) {
+      resposta[i].classList.remove("certo");
+    } else if (resposta[i].className.includes("errado")) {
+      resposta[i].classList.remove("errado");
     }
 
-    if (resposta[i].className.includes('desabilitado')) {
-      resposta[i].classList.remove('desabilitado')
-    }
-    else if (resposta[i].className.includes('escolhido')) {
-      resposta[i].classList.remove('escolhido')
+    if (resposta[i].className.includes("desabilitado")) {
+      resposta[i].classList.remove("desabilitado");
+    } else if (resposta[i].className.includes("escolhido")) {
+      resposta[i].classList.remove("escolhido");
     }
   }
   contador2 = 1;
-  resultado = 0
-  resultadoFinal = 0
-  QuestoesRespondidas = 0
-  responder()
-})
+  resultado = 0;
+  resultadoFinal = 0;
+  QuestoesRespondidas = 0;
+  responder();
+});
 
-const botaoHome = document.querySelector('.home')
+const botaoHome = document.querySelector(".home");
 
 botaoHome.addEventListener("click", function (e) {
-  window.location = '../tela1/index.html'
-})
+  window.location = "../tela1/index.html";
+});
 
 // PAGE 2 END
 
 // PAGE 3
 
-
 function verifyValuesQuizzFirstPage() {
-
   let ErrorMessage = `
 Ocorreu um problema na validação do seu quizz. 
 Por favor, verifique se: 
@@ -412,7 +408,7 @@ function handleGoToQuizzPage2() {
 
   mainContent.innerHTML = baseToPrint;
 
-  let mainFormContainer = document.getElementById('second-form');
+  let mainFormContainer = document.getElementById("second-form");
 
   let formContainer = document.querySelector("#second-form form");
 
@@ -575,7 +571,7 @@ function handleGoToQuizzPage2() {
           </form>
       </div>
   
-      `
+      `;
     }
   }
 
@@ -583,72 +579,129 @@ function handleGoToQuizzPage2() {
   <button class="form-button" onclick="verifyValuesQuizzSecondPage()">
 	 		Prosseguir pra criar níveis
 	 	  </button> 
-  `
-
-  
+  `;
 }
-
 
 function verifyValuesQuizzSecondPage() {
+  let quizzQuestionsCount = 0;
+  let quizzAnswerCount = 0;
 
-  for (let i = 1 ; i <= quizzQuestionCount; i++) {
-    console.log('entrou for')
-    let questionText = document.querySelector(`.identifyQuestionForm${i} #quizz-question-text`).value;
-    console.log(questionText);
-   
-    let questionColor = document.querySelector(`.identifyQuestionForm${i} #quizz-question-color`).value;
-    console.log(questionColor);
+  for (let i = 1; i <= quizzQuestionCount; i++) {
+    console.log("entrou for");
+    let questionText = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-question-text`
+    ).value;
 
-    questionsObjectArray.push({text: questionText, color: questionColor});
-    
-    let questionCorrectAnswer = document.querySelector(`.identifyQuestionForm${i} #quizz-correct-answer-text`).value;
-    console.log(questionCorrectAnswer);
+    let questionColor = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-question-color`
+    ).value;
 
-    let questionCorrectAnswerImage = document.querySelector(`.identifyQuestionForm${i} #quizz-correct-answer-image`).value;
-    console.log(questionCorrectAnswerImage);
+    questionsObjectArray.push({ text: questionText, color: questionColor });
+    quizzQuestionsCount++;
 
-    answersObjectArray.push({text: questionCorrectAnswer, image: questionCorrectAnswerImage, isCorrectAnswer: true})
+    let questionCorrectAnswer = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-correct-answer-text`
+    ).value;
 
-    let questionWrongAnswer1 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-text1`).value;
-    console.log(questionWrongAnswer1);
+    let questionCorrectAnswerImage = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-correct-answer-image`
+    ).value;
 
-    let questionWrongAnswerImage1 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-image1`).value;
-    console.log(questionWrongAnswerImage1);
+    answersObjectArray.push({
+      text: questionCorrectAnswer,
+      image: questionCorrectAnswerImage,
+      isCorrectAnswer: true,
+    });
 
-    if (questionWrongAnswer1 !== '' && questionWrongAnswerImage1 !== '') {
-      answersObjectArray.push({text: questionWrongAnswer1, image: questionWrongAnswerImage1, isCorrectAnswer: false});
+    let questionWrongAnswer1 = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-wrong-answer-text1`
+    ).value;
+
+    let questionWrongAnswerImage1 = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-wrong-answer-image1`
+    ).value;
+
+    if (questionWrongAnswer1 !== "" && questionWrongAnswerImage1 !== "") {
+      answersObjectArray.push({
+        text: questionWrongAnswer1,
+        image: questionWrongAnswerImage1,
+        isCorrectAnswer: false,
+      });
+      quizzAnswerCount++;
     }
 
-    let questionWrongAnswer2 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-text2`).value;
-    console.log(questionWrongAnswer2);
+    let questionWrongAnswer2 = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-wrong-answer-text2`
+    ).value;
 
-    let questionWrongAnswerImage2 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-image2`).value;
-    console.log(questionWrongAnswerImage2);
+    let questionWrongAnswerImage2 = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-wrong-answer-image2`
+    ).value;
 
-    if (questionWrongAnswer2 !== '' && questionWrongAnswerImage2 !== '') {
-      answersObjectArray.push({text: questionWrongAnswer2, image: questionWrongAnswerImage2, isCorrectAnswer: false});
+    if (questionWrongAnswer2 !== "" && questionWrongAnswerImage2 !== "") {
+      answersObjectArray.push({
+        text: questionWrongAnswer2,
+        image: questionWrongAnswerImage2,
+        isCorrectAnswer: false,
+      });
+      quizzAnswerCount++;
     }
 
-    let questionWrongAnswer3 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-text3`).value;
-    console.log(questionWrongAnswer3);
+    let questionWrongAnswer3 = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-wrong-answer-text3`
+    ).value;
 
-    let questionWrongAnswerImage3 = document.querySelector(`.identifyQuestionForm${i} #quizz-wrong-answer-image3`).value;
-    console.log(questionWrongAnswerImage3);
+    let questionWrongAnswerImage3 = document.querySelector(
+      `.identifyQuestionForm${i} #quizz-wrong-answer-image3`
+    ).value;
 
-    if (questionWrongAnswer3 !== '' && questionWrongAnswerImage3 !== '') {
-      answersObjectArray.push({text: questionWrongAnswer3, image: questionWrongAnswerImage3, isCorrectAnswer: false});
+    if (questionWrongAnswer3 !== "" && questionWrongAnswerImage3 !== "") {
+      answersObjectArray.push({
+        text: questionWrongAnswer3,
+        image: questionWrongAnswerImage3,
+        isCorrectAnswer: false,
+      });
+      quizzAnswerCount++;
     }
+  }
+  console.log(answersObjectArray);
+  console.log(questionsObjectArray);
 
-
-    }  
-    console.log(answersObjectArray)
-    console.log(questionsObjectArray); 
-    
-    handleGoToQuizzPage3()
-  
+  validateQuestionData(
+    questionsObjectArray,
+    answersObjectArray,
+    quizzQuestionsCount,
+    quizzAnswerCount
+  );
+  //handleGoToQuizzPage3()
 }
 
-function handleInvalidQuizzValues () {
+function validateQuestionData(questions, answers, quizzQuestions, quizzAnswer) {
+  for (let i = 0; i < questions.length; i++) {
+    if (
+      questions[i].text < 20 ||
+      !questions[i].color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/i)
+    ) {
+      questionsObjectArray = {};
+      handleInvalidQuizzValues();
+    }
+  }
+
+  for (let j = 0; j < answers.length; j++) {
+    if (
+      answers[j].text === "" ||
+      !answers[j].image.startsWith("https://") ||
+      !quizzQuestions >= quizzAnswer
+    ) {
+      answersObjectArray = {};
+      handleInvalidQuizzValues();
+    } else {
+      handleGoToQuizzPage3();
+    }
+  }
+}
+
+function handleInvalidQuizzValues() {
   let questionErrorMessage = `
 Ocorreu um problema na validação das suas perguntas. 
 Por favor, verifique se: 
@@ -659,7 +712,7 @@ Se foi inserida uma URL válida na sua imagem;
 Se inseriu pelo menos 1 resposta correta e 1 resposta errada em cada pergunta.
 `;
 
-  alert(questionErrorMessage)
+  alert(questionErrorMessage);
 }
 
 function openCloseContainer(value) {
@@ -682,7 +735,7 @@ function handleGoToQuizzPage3() {
 
   mainContent.innerHTML = baseToPrint;
 
-  let mainFormContainer = document.getElementById('third-form');
+  let mainFormContainer = document.getElementById("third-form");
 
   let formContainer = document.querySelector("#third-form form");
 
@@ -711,7 +764,7 @@ function handleGoToQuizzPage3() {
         placeholder="Descrição do nível"
         id="quizz-level-description"
       ></textarea>
-      `
+      `;
     } else {
       mainFormContainer.innerHTML += `
       <div class="toOpen" >
@@ -749,70 +802,134 @@ function handleGoToQuizzPage3() {
           ></textarea>
         </form>
       </div>      
-      `
+      `;
     }
-
   }
   mainFormContainer.innerHTML += `
   <button class="form-button" onclick="verifyValuesQuizzThirdPage()">
     Finalizar Quizz
 	</button> 
-  `
+  `;
 }
 
-
-
-function verifyValuesQuizzThirdPage () {
+function verifyValuesQuizzThirdPage() {
   for (let i = 1; i <= quizzLevelCount; i++) {
-   
-    let levelTitle = document.querySelector(`.identifyLevelForm${i} #quizz-level-title`).value;
-    console.log(levelTitle)
-    let levelPercentage = document.querySelector(`.identifyLevelForm${i} #quizz-level-percentage`).value;
-    console.log(levelPercentage)
-    let levelImageURL = document.querySelector(`.identifyLevelForm${i} #quizz-level-image`).value;
-    console.log(levelImageURL)
-    let levelDescription = document.querySelector(`.identifyLevelForm${i} #quizz-level-description`).value;
-    console.log(levelDescription)
+    let levelTitle = document.querySelector(
+      `.identifyLevelForm${i} #quizz-level-title`
+    ).value;
+    console.log(levelTitle);
+    let levelPercentage = document.querySelector(
+      `.identifyLevelForm${i} #quizz-level-percentage`
+    ).value;
+    console.log(levelPercentage);
+    let levelImageURL = document.querySelector(
+      `.identifyLevelForm${i} #quizz-level-image`
+    ).value;
+    console.log(levelImageURL);
+    let levelDescription = document.querySelector(
+      `.identifyLevelForm${i} #quizz-level-description`
+    ).value;
+    console.log(levelDescription);
 
-    levelInnerObject = {level: levelTitle, percentage: levelPercentage, image: levelImageURL, description: levelDescription}
-    levelsObjectArray.push(levelInnerObject)
-    levelInnerObject = {}
+    levelInnerObject = {
+      title: levelTitle,
+      image: levelImageURL,
+      text: levelDescription,
+      minValue: levelPercentage,
+    };
+    levelsObjectArray.push(levelInnerObject);
+    levelInnerObject = {};
   }
 
-
-  console.log(levelsObjectArray)
+  console.log(levelsObjectArray);
 
   validateLevelData(levelsObjectArray);
-
-  
 }
 
 function validateLevelData(value) {
-  console.log('valor: '+value.length)
+  console.log("valor: " + value.length);
 
-  
   let hasZero = true;
 
   for (let i = 0; i < value.length; i++) {
-    
-      console.log('entrou for interno')
-      if (
-          value[i].level.length < 10 ||
-          (value[i].percentage < 0 && value[i].percentage > 100) ||
-          !value[i].image.startsWith("https://") ||
-          value[i].description.length < 30 ||
-          hasZero === false
-        ) {
-        levelsObjectArray = {}
-        handleInvalidLevelValues()
-      } else {
-        handleGoToQuizzPage4(quizzURLImage)
-      }
+    console.log("entrou for interno");
+    if (
+      value[i].title.length < 10 ||
+      (value[i].minValue < 0 && value[i].minValue > 100) ||
+      !value[i].image.startsWith("https://") ||
+      value[i].text.length < 30
+    ) {
+      levelsObjectArray = {};
+      handleInvalidLevelValues();
+    } else {
+      let promise = axios.post(
+        "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes",
+        {
+          title: quizzTitle,
+          image: quizzURLImage,
+          questions: [
+            {
+              title: "Título da pergunta 1",
+              color: "#123456",
+              answers: [
+                {
+                  text: "Texto da resposta 1",
+                  image: "https://http.cat/411.jpg",
+                  isCorrectAnswer: true,
+                },
+                {
+                  text: "Texto da resposta 2",
+                  image: "https://http.cat/412.jpg",
+                  isCorrectAnswer: false,
+                },
+              ],
+            },
+            {
+              title: "Título da pergunta 2",
+              color: "#123456",
+              answers: [
+                {
+                  text: "Texto da resposta 1",
+                  image: "https://http.cat/411.jpg",
+                  isCorrectAnswer: true
+                },
+                {
+                  text: "Texto da resposta 2",
+                  image: "https://http.cat/412.jpg",
+                  isCorrectAnswer: false
+                }
+              ]
+            },
+            {
+              title: "Título da pergunta 3",
+              color: "#123456",
+              answers: [
+                {
+                  text: "Texto da resposta 1",
+                  image: "https://http.cat/411.jpg",
+                  isCorrectAnswer: true
+                },
+                {
+                  text: "Texto da resposta 2",
+                  image: "https://http.cat/412.jpg",
+                  isCorrectAnswer: false
+                }
+              ]
+            }
+          ],
+          levels: levelsObjectArray,
+        }
+      );
+      promise.then(handleGoToQuizzPage4(quizzURLImage))
     }
-  
+  }
 }
 
-function handleInvalidLevelValues () {
+function sendQuizz() {
+  handleGoToQuizzPage4(quizzURLImage);
+}
+
+function handleInvalidLevelValues() {
   let questionErrorMessage = `
 Ocorreu um problema na validação das suas perguntas. 
 Por favor, verifique se: 
@@ -823,14 +940,18 @@ A descrição do nível deve ter, no mínimo, 30 caracteres;
 É necessário que exista pelo menos um nível cuja porcentagem de acerto mínima seja 0%.
 `;
 
-  alert(questionErrorMessage)
+  alert(questionErrorMessage);
 }
 
 function openLevelEdit(value) {
-  let actualContainer = document.getElementById(`closed-level-container${value}`);
-  console.log(actualContainer)
+  let actualContainer = document.getElementById(
+    `closed-level-container${value}`
+  );
+  console.log(actualContainer);
   actualContainer.classList.add("hidden");
-  let expectedContainer = document.getElementById(`openned-level-container${value}`);
+  let expectedContainer = document.getElementById(
+    `openned-level-container${value}`
+  );
   expectedContainer.classList.remove("hidden");
 }
 
@@ -845,16 +966,26 @@ function handleGoToQuizzPage4(image) {
             O quão Potterhead é você?
         </p>
     </div>
-    <button class="form-button" onclick="handleGoToQuizzes()">
+    <button class="form-button" onclick="handleGoToCreatedQuizz()">
       Acessar Quizz
     </button>
-    <button class="home-button">
+    <button class="home-button" onclick="goHome()">
         Voltar pra home
     </button>
   </div>
     `;
 
   mainContent.innerHTML = toPrint;
+}
+
+function handleGoToCreatedQuizz () {
+  let id = 16721
+
+
+}
+
+function goHome () {
+  window.open("/projeto6-buzzquizz/index.html", "_self");
 }
 
 // PAGE 3 END
