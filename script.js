@@ -13,23 +13,16 @@ let AllQuizzes = [];
 
 getQuizzes();
 
-function goToCreateQuizz() {
-  window.open("/projeto6-buzzquizz/tela3/index.html", "_self");
-}
-
-function getQuizzes() {
-  const promise = axios.get(
-    "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes"
-  );
+function getQuizzes(){
+  const promise = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
 
   promise.then(sortAndCallRenderQuizzes);
   promise.catch(failedToGetQuizzes);
 }
 
-function failedToGetQuizzes() {
-  alert(
-    "Tivemos um erro inesperado ao carregar o(s) Quizz(es). Por favor, recarregue a página que a gente tenta de novo =)"
-  );
+//função chamada quando houve falha na requisição GET
+function failedToGetQuizzes(){
+  alert('Tivemos um erro inesperado ao carregar o(s) Quizz(es). Por favor, recarregue a página que a gente tenta de novo =)');
 }
 
 function sortAndCallRenderQuizzes(quizzesResponse) {
@@ -56,15 +49,16 @@ function sortUserQuizzes(ServerQuizzesList) {
   }
 }
 
-function quizzFromUser(quizzToBeAnalysed) {
-  //implementar função que verifica que é do usuário ou não
-  if (quizzToBeAnalysed.id % 2 == 0) {
+ //função que verifica que é do usuário ou não
+function quizzFromUser(quizzToBeAnalysed){
+  if(quizzToBeAnalysed.id % 2 == 0){
     //caso não seja do usuário, retorna false
     return false;
   } else {
     //caso seja do usuário, retorna true
     return true;
   }
+  //usar SERIALIZE / DESERIALIZE / PARSE
 }
 
 function RenderQuizzes() {
@@ -144,13 +138,17 @@ function makeQuizzCardHTML(quizz) {
   </div>
   `;
 }
-//função que deve redirecionar para o Quizz
-function showQuizz(id) {
-  const promise = axios.get(
-    `'https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`
-  );
+
+//função que redireciona para a página 2 (jogar quizz)
+function showQuizz(id){
+  const promise = axios.get(`'https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`);
   promise.then(FuncaoDaVictoria);
   promise.catch(failedToGetQuizzes);
+}
+
+//função que redireciona para a página 3 (criar quizz)
+function goToCreateQuizz(){
+  window.open("/projeto6-buzzquizz/tela3/index.html", "_self");
 }
 
 // PAGE 1 END
