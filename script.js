@@ -5,6 +5,7 @@ let questionsObjectArray = [];
 let answersObjectArray = [];
 let levelsObjectArray = [];
 let levelInnerObject = {};
+let questions = []
 
 // PAGE 1
 
@@ -418,6 +419,7 @@ function handleGoToQuizzPage2() {
             <input
               type="text"
               placeholder="Texto da pergunta"
+              minlength="20"
               id="quizz-question-text"
             />
             <input
@@ -431,6 +433,7 @@ function handleGoToQuizzPage2() {
             <input
               type="text"
               placeholder="Resposta correta"
+              minlength="1"
               id="quizz-correct-answer-text"
             />
             <input
@@ -445,6 +448,7 @@ function handleGoToQuizzPage2() {
 				<input
 				type="text"
 				placeholder="Resposta incorreta 1"
+        minlength="1"
 				id="quizz-wrong-answer-text1"
 			  />
 			  <input
@@ -583,9 +587,11 @@ function handleGoToQuizzPage2() {
 function verifyValuesQuizzSecondPage() {
   let quizzQuestionsCount = 0;
   let quizzAnswerCount = 0;
+  let moreWrong = []
 
   for (let i = 1; i <= quizzQuestionCount; i++) {
     console.log("entrou for");
+    
     let questionText = document.querySelector(
       `.identifyQuestionForm${i} #quizz-question-text`
     ).value;
@@ -594,7 +600,13 @@ function verifyValuesQuizzSecondPage() {
       `.identifyQuestionForm${i} #quizz-question-color`
     ).value;
 
-    questionsObjectArray.push({ text: questionText, color: questionColor });
+      if (questionText.length > 20 && questionColor !== '')
+      questionsObjectArray.push({ title: questionText, color: questionColor })
+    else {
+      console.log('erro titulo')
+      return handleInvalidQuizzValues();
+    }
+     
     quizzQuestionsCount++;
 
     let questionCorrectAnswer = document.querySelector(
@@ -605,11 +617,15 @@ function verifyValuesQuizzSecondPage() {
       `.identifyQuestionForm${i} #quizz-correct-answer-image`
     ).value;
 
+    if (questionCorrectAnswer !== '' && questionCorrectAnswerImage.startsWith('https://'))
     answersObjectArray.push({
       text: questionCorrectAnswer,
       image: questionCorrectAnswerImage,
       isCorrectAnswer: true,
-    });
+    })
+    else {
+      return handleInvalidQuizzValues();
+    }
 
     let questionWrongAnswer1 = document.querySelector(
       `.identifyQuestionForm${i} #quizz-wrong-answer-text1`
@@ -624,8 +640,11 @@ function verifyValuesQuizzSecondPage() {
         text: questionWrongAnswer1,
         image: questionWrongAnswerImage1,
         isCorrectAnswer: false,
-      });
-      quizzAnswerCount++;
+      }) 
+      //quizzAnswerCount++;
+    } 
+    else {
+      return handleInvalidQuizzValues();
     }
 
     let questionWrongAnswer2 = document.querySelector(
@@ -637,7 +656,7 @@ function verifyValuesQuizzSecondPage() {
     ).value;
 
     if (questionWrongAnswer2 !== "" && questionWrongAnswerImage2 !== "") {
-      answersObjectArray.push({
+      moreWrong.push({
         text: questionWrongAnswer2,
         image: questionWrongAnswerImage2,
         isCorrectAnswer: false,
@@ -654,30 +673,40 @@ function verifyValuesQuizzSecondPage() {
     ).value;
 
     if (questionWrongAnswer3 !== "" && questionWrongAnswerImage3 !== "") {
-      answersObjectArray.push({
+      moreWrong.push({
         text: questionWrongAnswer3,
         image: questionWrongAnswerImage3,
         isCorrectAnswer: false,
       });
       quizzAnswerCount++;
     }
+
+
+    // questions[i].push({
+    //   title: questionText
+    // })
+
+    
   }
+
+  
   console.log(answersObjectArray);
   console.log(questionsObjectArray);
+  console.log(questions);
 
-  validateQuestionData(
-    questionsObjectArray,
-    answersObjectArray,
-    quizzQuestionsCount,
-    quizzAnswerCount
-  );
-  //handleGoToQuizzPage3()
+  // validateQuestionData(
+  //   questionsObjectArray,
+  //   answersObjectArray,
+  //   quizzQuestionsCount,
+  //   quizzAnswerCount
+  // );
+  handleGoToQuizzPage3()
 }
 
 function validateQuestionData(questions, answers, quizzQuestions, quizzAnswer) {
   for (let i = 0; i < questions.length; i++) {
     if (
-      questions[i].text < 20 ||
+      questions[i].title < 20 ||
       !questions[i].color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/i)
     ) {
       questionsObjectArray = {};
@@ -744,10 +773,11 @@ function handleGoToQuizzPage3() {
       <input
         type="text"
         placeholder="Título do nível"
+        minlength="10"
         id="quizz-level-title"
       />
       <input
-        type="text"
+        type="number"
         placeholder="% de acerto mínima"
         id="quizz-level-percentage"
       />
@@ -759,6 +789,7 @@ function handleGoToQuizzPage3() {
       <textarea
         cols="30"
         rows="5"
+        minlength="30"
         placeholder="Descrição do nível"
         id="quizz-level-description"
       ></textarea>
@@ -918,9 +949,17 @@ function validateLevelData(value) {
           levels: levelsObjectArray,
         }
       );
-      promise.then(handleGoToQuizzPage4(quizzURLImage))
+      promise.then(getCreatedQuizzId)
+      promise.catch((err) => {
+        alert('Erro ao enviar quizz')
+      })
     }
   }
+}
+
+function getCreatedQuizzId (response) {
+  let quizzId = response.data.id;
+  console.log(quizzId)
 }
 
 function sendQuizz() {
@@ -976,11 +1015,7 @@ function handleGoToQuizzPage4(image) {
   mainContent.innerHTML = toPrint;
 }
 
-function handleGoToCreatedQuizz () {
-  let id = 16721
 
-
-}
 
 function goHome () {
   window.open("/projeto6-buzzquizz/index.html", "_self");
