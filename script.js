@@ -5,7 +5,9 @@ let questionsObjectArray = [];
 let answersObjectArray = [];
 let levelsObjectArray = [];
 let levelInnerObject = {};
-let questions = []
+let questions = [];
+let globalObject = {};
+
 
 // PAGE 1
 
@@ -503,6 +505,7 @@ function handleGoToQuizzPage2() {
               <input
                 type="text"
                 placeholder="Texto da pergunta"
+                minlength="20"
                 id="quizz-question-text"
               />
               <input
@@ -517,6 +520,7 @@ function handleGoToQuizzPage2() {
               <input
                 type="text"
                 placeholder="Resposta correta"
+                minlength="1"
                 id="quizz-correct-answer-text"
               />
               <input
@@ -532,6 +536,7 @@ function handleGoToQuizzPage2() {
           <input
           type="text"
           placeholder="Resposta incorreta 1"
+          minlength="1"
           id="quizz-wrong-answer-text1"
           />
           <input
@@ -600,10 +605,10 @@ function verifyValuesQuizzSecondPage() {
       `.identifyQuestionForm${i} #quizz-question-color`
     ).value;
 
-      if (questionText.length > 20 && questionColor !== '')
+      if (questionText.length > 20 && questionColor.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/i))
       questionsObjectArray.push({ title: questionText, color: questionColor })
     else {
-      console.log('erro titulo')
+      console.log('erro titulo ou cor titulo')
       return handleInvalidQuizzValues();
     }
      
@@ -624,6 +629,7 @@ function verifyValuesQuizzSecondPage() {
       isCorrectAnswer: true,
     })
     else {
+      console.log('erro resposta correta ou imagem resposta correta')
       return handleInvalidQuizzValues();
     }
 
@@ -644,6 +650,7 @@ function verifyValuesQuizzSecondPage() {
       //quizzAnswerCount++;
     } 
     else {
+      console.log('erro resposta errada1 ou imagem')
       return handleInvalidQuizzValues();
     }
 
@@ -682,50 +689,88 @@ function verifyValuesQuizzSecondPage() {
     }
 
 
-    // questions[i].push({
-    //   title: questionText
-    // })
-
+    if (quizzAnswerCount === 0) {
     
+    questions.push({
+      title: questionText,
+      color: questionColor,
+      answers: [
+        {
+          text: questionCorrectAnswer,
+          image: questionCorrectAnswer,
+          isCorrectAnswer: true,
+        },
+        {
+          text: questionWrongAnswer1,
+          image: questionWrongAnswer1,
+          isCorrectAnswer: false,
+        }
+      ]
+    })
   }
 
-  
-  console.log(answersObjectArray);
-  console.log(questionsObjectArray);
+  if (quizzAnswerCount === 1) {
+    
+    questions.push({
+      title: questionText,
+      color: questionColor,
+      answers: [
+        {
+          text: questionCorrectAnswer,
+          image: questionCorrectAnswer,
+          isCorrectAnswer: true,
+        },
+        {
+          text: questionWrongAnswer1,
+          image: questionWrongAnswerImage1,
+          isCorrectAnswer: false,
+        },
+        {
+          text: questionWrongAnswer2,
+          image: questionWrongAnswerImage2,
+          isCorrectAnswer: false,
+        },
+      ]
+    })
+
+    quizzAnswerCount = 0;
+  }
+
+  if (quizzAnswerCount === 2) {
+    
+    questions.push({
+      title: questionText,
+      color: questionColor,
+      answers: [
+        {
+          text: questionCorrectAnswer,
+          image: questionCorrectAnswer,
+          isCorrectAnswer: true,
+        },
+        {
+          text: questionWrongAnswer1,
+          image: questionWrongAnswerImage1,
+          isCorrectAnswer: false,
+        },
+        {
+          text: questionWrongAnswer2,
+          image: questionWrongAnswerImage2,
+          isCorrectAnswer: false,
+        },
+        {
+          text: questionWrongAnswer3,
+          image: questionWrongAnswerImage3,
+          isCorrectAnswer: false,
+        },
+      ]
+    })
+    quizzAnswerCount = 0;
+  }    
+}
   console.log(questions);
 
-  // validateQuestionData(
-  //   questionsObjectArray,
-  //   answersObjectArray,
-  //   quizzQuestionsCount,
-  //   quizzAnswerCount
-  // );
   handleGoToQuizzPage3()
-}
 
-function validateQuestionData(questions, answers, quizzQuestions, quizzAnswer) {
-  for (let i = 0; i < questions.length; i++) {
-    if (
-      questions[i].title < 20 ||
-      !questions[i].color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/i)
-    ) {
-      questionsObjectArray = {};
-      handleInvalidQuizzValues();
-    }
-  }
-
-  for (let j = 0; j < answers.length; j++) {
-    if (
-      answers[j].text === "" ||
-      !answers[j].image.startsWith("https://") ||
-      !quizzQuestions >= quizzAnswer
-    ) {
-      answersObjectArray = {};
-      handleInvalidQuizzValues();
-    } else {
-      handleGoToQuizzPage3();
-    }
-  }
 }
 
 function handleInvalidQuizzValues() {
@@ -811,10 +856,11 @@ function handleGoToQuizzPage3() {
           <input
             type="text"
             placeholder="Título do nível"
+            minlength="10"
             id="quizz-level-title"
           />
           <input
-            type="text"
+            type="number"
             placeholder="% de acerto mínima"
             id="quizz-level-percentage"
           />
@@ -826,6 +872,7 @@ function handleGoToQuizzPage3() {
           <textarea
             cols="30"
             rows="5"
+            minlength="30"
             placeholder="Descrição do nível"
             id="quizz-level-description"
           ></textarea>
@@ -842,129 +889,100 @@ function handleGoToQuizzPage3() {
 }
 
 function verifyValuesQuizzThirdPage() {
+  let percentArray = [];
+
   for (let i = 1; i <= quizzLevelCount; i++) {
     let levelTitle = document.querySelector(
       `.identifyLevelForm${i} #quizz-level-title`
     ).value;
-    console.log(levelTitle);
+    console.log(levelTitle)
+    if (levelTitle.length < 10) {
+      handleInvalidLevelValues();
+    }
+
     let levelPercentage = document.querySelector(
       `.identifyLevelForm${i} #quizz-level-percentage`
     ).value;
     console.log(levelPercentage);
+    if (levelPercentage < 0 || levelPercentage > 100) {
+      handleInvalidLevelValues();
+    } else {
+      percentArray.push(levelPercentage)
+    }
+
     let levelImageURL = document.querySelector(
       `.identifyLevelForm${i} #quizz-level-image`
     ).value;
     console.log(levelImageURL);
+    if (!levelImageURL.startsWith('https://')) {
+      handleInvalidLevelValues();
+    }
+
+
     let levelDescription = document.querySelector(
       `.identifyLevelForm${i} #quizz-level-description`
     ).value;
     console.log(levelDescription);
+    if (levelDescription.length < 30) {
+      handleInvalidLevelValues();
+    }
 
-    levelInnerObject = {
-      title: levelTitle,
-      image: levelImageURL,
-      text: levelDescription,
-      minValue: levelPercentage,
-    };
-    levelsObjectArray.push(levelInnerObject);
-    levelInnerObject = {};
+    
+      levelInnerObject = {
+        title: levelTitle,
+        image: levelImageURL,
+        text: levelDescription,
+        minValue: +levelPercentage,
+      }
+      levelsObjectArray.push(levelInnerObject)
+
+      levelInnerObject = {};
+      
+    
   }
 
-  console.log(levelsObjectArray);
+  console.log(percentArray)
 
-  validateLevelData(levelsObjectArray);
+  if (percentArray.indexOf('0') === -1) {
+    handleInvalidLevelValues();
+    levelsObjectArray = []
+  } else {
+    console.log(levelsObjectArray);
+    console.log('finalizou')
+    makeFinalObject()
+  }
 }
 
-function validateLevelData(value) {
-  console.log("valor: " + value.length);
-
-  let hasZero = true;
-
-  for (let i = 0; i < value.length; i++) {
-    console.log("entrou for interno");
-    if (
-      value[i].title.length < 10 ||
-      (value[i].minValue < 0 && value[i].minValue > 100) ||
-      !value[i].image.startsWith("https://") ||
-      value[i].text.length < 30
-    ) {
-      levelsObjectArray = {};
-      handleInvalidLevelValues();
-    } else {
-      let promise = axios.post(
-        "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes",
-        {
-          title: quizzTitle,
-          image: quizzURLImage,
-          questions: [
-            {
-              title: "Título da pergunta 1",
-              color: "#123456",
-              answers: [
-                {
-                  text: "Texto da resposta 1",
-                  image: "https://http.cat/411.jpg",
-                  isCorrectAnswer: true,
-                },
-                {
-                  text: "Texto da resposta 2",
-                  image: "https://http.cat/412.jpg",
-                  isCorrectAnswer: false,
-                },
-              ],
-            },
-            {
-              title: "Título da pergunta 2",
-              color: "#123456",
-              answers: [
-                {
-                  text: "Texto da resposta 1",
-                  image: "https://http.cat/411.jpg",
-                  isCorrectAnswer: true
-                },
-                {
-                  text: "Texto da resposta 2",
-                  image: "https://http.cat/412.jpg",
-                  isCorrectAnswer: false
-                }
-              ]
-            },
-            {
-              title: "Título da pergunta 3",
-              color: "#123456",
-              answers: [
-                {
-                  text: "Texto da resposta 1",
-                  image: "https://http.cat/411.jpg",
-                  isCorrectAnswer: true
-                },
-                {
-                  text: "Texto da resposta 2",
-                  image: "https://http.cat/412.jpg",
-                  isCorrectAnswer: false
-                }
-              ]
-            }
-          ],
-          levels: levelsObjectArray,
-        }
-      );
-      promise.then(getCreatedQuizzId)
-      promise.catch((err) => {
-        alert('Erro ao enviar quizz')
-      })
-    }
+function makeFinalObject() {
+  globalObject = {
+    title: quizzTitle,
+    image: quizzURLImage,
+    questions: questions,
+    levels: levelsObjectArray
   }
+
+  console.log(globalObject)
+  sendQuizz()
+
+}
+
+function sendQuizz() {
+  let promise = axios.post(
+    "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", globalObject)
+  promise.then(getCreatedQuizzId)
+  promise.catch((err) => {
+    alert('Erro ao enviar quizz')
+  })
+  
 }
 
 function getCreatedQuizzId (response) {
   let quizzId = response.data.id;
   console.log(quizzId)
+  handleGoToQuizzPage4(quizzId);
 }
 
-function sendQuizz() {
-  handleGoToQuizzPage4(quizzURLImage);
-}
+
 
 function handleInvalidLevelValues() {
   let questionErrorMessage = `
@@ -992,12 +1010,12 @@ function openLevelEdit(value) {
   expectedContainer.classList.remove("hidden");
 }
 
-function handleGoToQuizzPage4(image) {
+function handleGoToQuizzPage4(id) {
   let toPrint = `
     <div class="form-container" id="first-form">
     <h1 class="form-title">Seu quizz está pronto!</h1>
     <div class="final-quizz-container">
-        <img  src="${image}" alt="">
+        <img  src="${id}" alt="">
         <div class="gradient"></div>
         <p>
             O quão Potterhead é você?
