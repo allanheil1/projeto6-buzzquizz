@@ -1082,6 +1082,7 @@ function handleGoToQuizzPage4(id) {
 }
 
 function handleGoToCreatedQuizz(quizzValue) {
+  salvarQuizzes(quizzValue)
   window.open("/projeto6-buzzquizz/tela2/index.html", "_self");
 }
 
