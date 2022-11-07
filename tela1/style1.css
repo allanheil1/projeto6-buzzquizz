@@ -88,6 +88,8 @@ header-title{
 .user-quizzes{
     margin-top: 69px;
     width: 1055px;
+    display: flex;
+    justify-content: center;
 }
 
 .user-quizzes-header{
