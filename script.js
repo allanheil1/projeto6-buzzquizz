@@ -180,7 +180,7 @@ function showQuizz(id){
 
 //função que redireciona para a página 3 (criar quizz)
 function goToCreateQuizz(){
-  window.open("/projeto6-buzzquizz/tela3/index.html", "_self");
+  window.open("./tela3/index.html", "_self");
 }
 
 // PAGE 1 END
@@ -196,8 +196,6 @@ let levelsArray;
 function responder() {
   const quizz = document.querySelector("main");
   id = localStorage.getItem('quizzSelecionado');
-  // ALTERAR ID BASEADO NA TELA 1 !
-  console.log(`ID: ${id}`)
   axios
     .get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`)
     .then((response) => {
@@ -221,6 +219,7 @@ function responder() {
           return 0.5 - Math.random();
         }
         add += `<div class="quizz">
+                  <div class='quadrado'>
                   <div class="pergunta">
                     <div class="cabecalho" style="background-color:${item.questions[i].color}">
                       <p class="ctitulo">${item.questions[i].title}</p>
@@ -238,6 +237,7 @@ function responder() {
                         </div>`;
             if (quantidadeDePerguntas == 3) {
               add += `</div>
+                      </div>
                       </div>`;
             }
           }
@@ -250,6 +250,7 @@ function responder() {
 
             if (quantidadeDePerguntas == 2 || j == 3) {
               add += `</div>
+                      </div>
                       </div>`;
             }
 
@@ -270,10 +271,8 @@ function salvarQuizzes(id){
 
 const main = document.querySelector("main");
 let contador = 0;
-let contador2 = 1;
 
 main.addEventListener("click", function (e) {
-  console.log('olá')
   let alt = e.srcElement.alt;
 
   if (!alt.includes("quiz") || alt.length == 0) {
@@ -326,6 +325,7 @@ main.addEventListener("click", function (e) {
 
     let final = document.querySelector("main");
     let add2 = `<div class='rodape'>
+                <div class='quadrado'>
                 <div class="final">`;
 
     let posicao;
@@ -347,19 +347,16 @@ main.addEventListener("click", function (e) {
                 </div>
                 </div>
                 </div>
+                </div>
                 </div>`;
 
     final.innerHTML += add2;
   }
 
   function scrollar() {
-    let proximaResposta = document.querySelector(
-      `.quadro div:nth-child(${contador2})`
-    );
-    console.log(proximaResposta);
-    contador2++;
-    proximaResposta.scrollIntoView(true, { block: "end", behavior: "smooth" });
-    console.log(contador2 + " contagens");
+    let proximaResposta = document.querySelectorAll(`.quadrado`);
+    contador++;
+    proximaResposta[contador].scrollIntoView({block: "center", behavior: "smooth"});
   }
 
   setTimeout(scrollar(), 2000);
@@ -389,8 +386,8 @@ botaoReiniciar.addEventListener("click", function (e) {
       resposta[i].classList.remove("escolhido");
     }
   }
-  contador2 = 1;
   resultado = 0;
+  contador = 0
   resultadoFinal = 0;
   QuestoesRespondidas = 0;
   responder();
@@ -633,7 +630,6 @@ function verifyValuesQuizzSecondPage() {
   let moreWrong = []
 
   for (let i = 1; i <= quizzQuestionCount; i++) {
-    console.log("entrou for");
     
     let questionText = document.querySelector(
       `.identifyQuestionForm${i} #quizz-question-text`
@@ -646,7 +642,6 @@ function verifyValuesQuizzSecondPage() {
       if (questionText.length > 20 && questionColor.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/i))
       questionsObjectArray.push({ title: questionText, color: questionColor })
     else {
-      console.log('erro titulo ou cor titulo')
       return handleInvalidQuizzValues();
     }
      
@@ -667,7 +662,6 @@ function verifyValuesQuizzSecondPage() {
       isCorrectAnswer: true,
     })
     else {
-      console.log('erro resposta correta ou imagem resposta correta')
       return handleInvalidQuizzValues();
     }
 
@@ -688,7 +682,6 @@ function verifyValuesQuizzSecondPage() {
       //quizzAnswerCount++;
     } 
     else {
-      console.log('erro resposta errada1 ou imagem')
       return handleInvalidQuizzValues();
     }
 
@@ -805,7 +798,6 @@ function verifyValuesQuizzSecondPage() {
     quizzAnswerCount = 0;
   }    
 }
-  console.log(questions);
 
   handleGoToQuizzPage3()
 
@@ -935,7 +927,6 @@ function verifyValuesQuizzThirdPage() {
     let levelTitle = document.querySelector(
       `.identifyLevelForm${i} #quizz-level-title`
     ).value;
-    console.log(levelTitle)
     if (levelTitle.length < 10) {
       return handleInvalidLevelValues();
     }
@@ -943,7 +934,6 @@ function verifyValuesQuizzThirdPage() {
     let levelPercentage = document.querySelector(
       `.identifyLevelForm${i} #quizz-level-percentage`
     ).value;
-    console.log(levelPercentage);
     if (levelPercentage < 0 || levelPercentage > 100 || levelPercentage === '') {
       return handleInvalidLevelValues();
     } else {
@@ -953,7 +943,6 @@ function verifyValuesQuizzThirdPage() {
     let levelImageURL = document.querySelector(
       `.identifyLevelForm${i} #quizz-level-image`
     ).value;
-    console.log(levelImageURL);
     if (!levelImageURL.startsWith('https://')) {
       return handleInvalidLevelValues();
     }
@@ -962,7 +951,6 @@ function verifyValuesQuizzThirdPage() {
     let levelDescription = document.querySelector(
       `.identifyLevelForm${i} #quizz-level-description`
     ).value;
-    console.log(levelDescription);
     if (levelDescription.length < 30) {
       return handleInvalidLevelValues();
     }
@@ -981,14 +969,10 @@ function verifyValuesQuizzThirdPage() {
     
   }
 
-  console.log(percentArray)
-
   if (percentArray.indexOf('0') === -1) {
     return handleInvalidLevelValues();
     
   } else {
-    console.log(levelsObjectArray);
-    console.log('finalizou')
     makeFinalObject()
   }
 }
@@ -1005,7 +989,6 @@ function makeFinalObject() {
   levelsObjectArray = []
   levelInnerObject = {}
 
-  console.log(globalObject)
   sendQuizz()
 }
 
@@ -1021,7 +1004,6 @@ function sendQuizz() {
 
 function getCreatedQuizzId (response) {
   let quizzId = response.data.id;
-  console.log(quizzId)
   //armazena o quizz em local storage
   saveQuizzToLocalStorage(response);
   //exibe página de sucesso 
@@ -1049,7 +1031,6 @@ function openLevelEdit(value) {
   let actualContainer = document.getElementById(
     `closed-level-container${value}`
   );
-  console.log(actualContainer);
   actualContainer.classList.add("hidden");
   let expectedContainer = document.getElementById(
     `openned-level-container${value}`
@@ -1086,7 +1067,7 @@ function handleGoToCreatedQuizz() {
 }
 
 function goHome () {
-  window.open("/projeto6-buzzquizz/index.html", "_self");
+  window.open("./index.html", "_self");
 }
 
 // PAGE 3 END
