@@ -174,9 +174,8 @@ function makeQuizzCardHTML(quizz) {
 
 //função que redireciona para a página 2 (jogar quizz)
 function showQuizz(id){
-  const promise = axios.get(`'https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`);
-  promise.then(FuncaoDaVictoria);
-  promise.catch(failedToGetQuizzes);
+  salvarQuizzes(id)
+  window.location = "/tela2/index.html";
 }
 
 //função que redireciona para a página 3 (criar quizz)
@@ -196,9 +195,11 @@ let levelsArray;
 
 function responder() {
   const quizz = document.querySelector("main");
+  id = localStorage.getItem('quizzSelecionado');
   // ALTERAR ID BASEADO NA TELA 1 !
+  console.log(`ID: ${id}`)
   axios
-    .get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/16233")
+    .get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`)
     .then((response) => {
       let item = response.data;
 
@@ -263,11 +264,16 @@ function responder() {
     .catch((error) => {});
 }
 
+function salvarQuizzes(id){
+  localStorage.setItem('quizzSelecionado', id);
+}
+
 const main = document.querySelector("main");
 let contador = 0;
 let contador2 = 1;
 
 main.addEventListener("click", function (e) {
+  console.log('olá')
   let alt = e.srcElement.alt;
 
   if (!alt.includes("quiz") || alt.length == 0) {
@@ -319,7 +325,8 @@ main.addEventListener("click", function (e) {
     }
 
     let final = document.querySelector("main");
-    let add2 = `<div class="final">`;
+    let add2 = `<div class='rodape'>
+                <div class="final">`;
 
     let posicao;
 
@@ -337,6 +344,7 @@ main.addEventListener("click", function (e) {
                 </div>
                 <div class="texto">
                 <p>${levelsArray[posicao].text}</p>
+                </div>
                 </div>
                 </div>
                 </div>`;
@@ -391,7 +399,7 @@ botaoReiniciar.addEventListener("click", function (e) {
 const botaoHome = document.querySelector(".home");
 
 botaoHome.addEventListener("click", function (e) {
-  window.location = "../tela1/index.html";
+  window.location = "../index.html";
 });
 
 // PAGE 2 END
