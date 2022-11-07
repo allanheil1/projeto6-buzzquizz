@@ -993,6 +993,10 @@ function makeFinalObject() {
     levels: levelsObjectArray
   }
 
+  percentArray = [];
+  levelsObjectArray = []
+  levelInnerObject = {}
+
   console.log(globalObject)
   sendQuizz()
 }

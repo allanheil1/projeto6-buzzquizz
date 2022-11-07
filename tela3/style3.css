@@ -216,6 +216,7 @@ form input:last-child {
 
 .final-quizz-container p {
     position: absolute;
+    word-wrap: break-word;
     z-index: 1;
     left: 20px;
     bottom: 20px;
