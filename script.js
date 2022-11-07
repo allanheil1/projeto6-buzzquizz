@@ -6,6 +6,7 @@ let answersObjectArray = [];
 let levelsObjectArray = [];
 let levelInnerObject = {};
 let questions = [];
+let percentArray = [];
 let globalObject = {};
 
 
@@ -697,12 +698,12 @@ function verifyValuesQuizzSecondPage() {
       answers: [
         {
           text: questionCorrectAnswer,
-          image: questionCorrectAnswer,
+          image: questionCorrectAnswerImage,
           isCorrectAnswer: true,
         },
         {
           text: questionWrongAnswer1,
-          image: questionWrongAnswer1,
+          image: questionWrongAnswerImage1,
           isCorrectAnswer: false,
         }
       ]
@@ -717,7 +718,7 @@ function verifyValuesQuizzSecondPage() {
       answers: [
         {
           text: questionCorrectAnswer,
-          image: questionCorrectAnswer,
+          image: questionCorrectAnswerImage,
           isCorrectAnswer: true,
         },
         {
@@ -744,7 +745,7 @@ function verifyValuesQuizzSecondPage() {
       answers: [
         {
           text: questionCorrectAnswer,
-          image: questionCorrectAnswer,
+          image: questionCorrectAnswerImage,
           isCorrectAnswer: true,
         },
         {
@@ -783,6 +784,8 @@ Se o texto das respostas não está vazio;
 Se foi inserida uma URL válida na sua imagem; 
 Se inseriu pelo menos 1 resposta correta e 1 resposta errada em cada pergunta.
 `;
+
+questions = []
 
   alert(questionErrorMessage);
 }
@@ -889,7 +892,7 @@ function handleGoToQuizzPage3() {
 }
 
 function verifyValuesQuizzThirdPage() {
-  let percentArray = [];
+  
 
   for (let i = 1; i <= quizzLevelCount; i++) {
     let levelTitle = document.querySelector(
@@ -904,7 +907,7 @@ function verifyValuesQuizzThirdPage() {
       `.identifyLevelForm${i} #quizz-level-percentage`
     ).value;
     console.log(levelPercentage);
-    if (levelPercentage < 0 || levelPercentage > 100) {
+    if (levelPercentage < 0 || levelPercentage > 100 || levelPercentage === '') {
       handleInvalidLevelValues();
     } else {
       percentArray.push(levelPercentage)
@@ -994,7 +997,9 @@ Se foi inserida uma URL válida na sua imagem;
 A descrição do nível deve ter, no mínimo, 30 caracteres;
 É necessário que exista pelo menos um nível cuja porcentagem de acerto mínima seja 0%.
 `;
-
+  percentArray = [];
+  levelsObjectArray = []
+  levelInnerObject = {}
   alert(questionErrorMessage);
 }
 
@@ -1011,17 +1016,18 @@ function openLevelEdit(value) {
 }
 
 function handleGoToQuizzPage4(id) {
+ 
   let toPrint = `
-    <div class="form-container" id="first-form">
+    <div class="form-container" id="first-form" onclick="handleGoToCreatedQuizz(${id})">
     <h1 class="form-title">Seu quizz está pronto!</h1>
     <div class="final-quizz-container">
-        <img  src="${id}" alt="">
+        <img  src="${quizzURLImage}" alt="">
         <div class="gradient"></div>
         <p>
-            O quão Potterhead é você?
+            ${quizzTitle}
         </p>
     </div>
-    <button class="form-button" onclick="handleGoToCreatedQuizz()">
+    <button class="form-button" onclick="handleGoToCreatedQuizz(${id})">
       Acessar Quizz
     </button>
     <button class="home-button" onclick="goHome()">
@@ -1033,7 +1039,9 @@ function handleGoToQuizzPage4(id) {
   mainContent.innerHTML = toPrint;
 }
 
+function handleGoToCreatedQuizz() {
 
+}
 
 function goHome () {
   window.open("/projeto6-buzzquizz/index.html", "_self");

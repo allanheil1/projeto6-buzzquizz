@@ -195,6 +195,7 @@ form input:last-child {
     position: relative;
     margin-bottom: -40px;
     margin-top: 28px;
+    overflow: hidden;
 }
 
 .gradient {    
