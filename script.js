@@ -929,7 +929,7 @@ function verifyValuesQuizzThirdPage() {
     ).value;
     console.log(levelTitle)
     if (levelTitle.length < 10) {
-      handleInvalidLevelValues();
+      return handleInvalidLevelValues();
     }
 
     let levelPercentage = document.querySelector(
@@ -937,7 +937,7 @@ function verifyValuesQuizzThirdPage() {
     ).value;
     console.log(levelPercentage);
     if (levelPercentage < 0 || levelPercentage > 100 || levelPercentage === '') {
-      handleInvalidLevelValues();
+      return handleInvalidLevelValues();
     } else {
       percentArray.push(levelPercentage)
     }
@@ -947,7 +947,7 @@ function verifyValuesQuizzThirdPage() {
     ).value;
     console.log(levelImageURL);
     if (!levelImageURL.startsWith('https://')) {
-      handleInvalidLevelValues();
+      return handleInvalidLevelValues();
     }
 
 
@@ -956,7 +956,7 @@ function verifyValuesQuizzThirdPage() {
     ).value;
     console.log(levelDescription);
     if (levelDescription.length < 30) {
-      handleInvalidLevelValues();
+      return handleInvalidLevelValues();
     }
 
     
@@ -976,8 +976,8 @@ function verifyValuesQuizzThirdPage() {
   console.log(percentArray)
 
   if (percentArray.indexOf('0') === -1) {
-    handleInvalidLevelValues();
-    levelsObjectArray = []
+    return handleInvalidLevelValues();
+    
   } else {
     console.log(levelsObjectArray);
     console.log('finalizou')
