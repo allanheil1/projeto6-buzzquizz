@@ -175,7 +175,7 @@ function makeQuizzCardHTML(quizz) {
 //função que redireciona para a página 2 (jogar quizz)
 function showQuizz(id){
   salvarQuizzes(id)
-  window.location = "/tela2/index.html";
+  window.open("/projeto6-buzzquizz/tela2/index.html", "_self");
 }
 
 //função que redireciona para a página 3 (criar quizz)
@@ -1062,8 +1062,9 @@ function handleGoToQuizzPage4(id) {
   mainContent.innerHTML = toPrint;
 }
 
-function handleGoToCreatedQuizz() {
-
+function handleGoToCreatedQuizz(quizzValue) {
+  salvarQuizzes(quizzValue)
+  window.open("/projeto6-buzzquizz/tela2/index.html", "_self");
 }
 
 function goHome () {
