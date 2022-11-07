@@ -180,7 +180,7 @@ function showQuizz(id){
 
 //função que redireciona para a página 3 (criar quizz)
 function goToCreateQuizz(){
-  window.open("./tela3/index.html", "_self");
+  window.open("/projeto6-buzzquizz/tela3/index.html", "_self");
 }
 
 // PAGE 1 END
@@ -1068,7 +1068,7 @@ function handleGoToCreatedQuizz(quizzValue) {
 }
 
 function goHome () {
-  window.open("./index.html", "_self");
+  window.open("/projeto6-buzzquizz/index.html", "_self");
 }
 
 // PAGE 3 END
