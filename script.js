@@ -55,14 +55,40 @@ function sortUserQuizzes(ServerQuizzesList) {
 
  //função que verifica que é do usuário ou não
 function quizzFromUser(quizzToBeAnalysed){
-  if(quizzToBeAnalysed.id % 2 == 0){
-    //caso não seja do usuário, retorna false
-    return false;
-  } else {
-    //caso seja do usuário, retorna true
-    return true;
+  const userQuizzesFromStorage = getLocalStorageQuizzes();
+
+  for(let i = 0; i < userQuizzesFromStorage.length; i++){
+    //caso o ID do quizz analisado seja igual à um id armazenado em localStorage, quer dizer que é um quizz de usuário
+    if(userQuizzesFromStorage[i].id === quizzToBeAnalysed.id){
+      return true;
+    }
   }
-  //usar SERIALIZE / DESERIALIZE / PARSE
+  //caso não encontra, retorna false
+  return false;
+}
+
+//salva em localStorage
+function saveQuizzToLocalStorage(response){
+  const quizz = response.data;
+  //puxa o conteúdo do local storage
+  const localStorageDataObject = getLocalStorageQuizzes();
+  //armazena no localStorage o id e a key do quizz
+  localStorageDataObject.push({id: quizz.id, key: quizz.key});
+  //transforma em string e manda pro localStorage
+  localStorage.setItem('localquizzes', JSON.stringify(localStorageDataObject));
+}
+
+//puxa dados da localStorage
+function getLocalStorageQuizzes(){
+  let localQuizzes = localStorage.getItem('localquizzes');
+  if(localQuizzes !== null){
+    //caso tenha quizzes locais, retorna os dados desserializados (transforma de string pra objeto)
+    const deserialized = JSON.parse(localQuizzes);
+    return deserialized;
+  }else{
+    //caso não tenha quizzes locais, cria um array vazio
+    return [];
+  }
 }
 
 function RenderQuizzes() {
@@ -72,27 +98,30 @@ function RenderQuizzes() {
   if (UserQuizzes.length === 0) {
     //caso não tenha quizzes do usuário, o HTML a ser montado deve ser aquele com botão grande
     userQuizzesHTML = makeEmptyUserQuizzesHTML();
+    //populando o HTML da seção de Quizzes do Usuário
+    const elementUserQuizzes = document.getElementById("user-quizzes-html");
+    elementUserQuizzes.innerHTML = `${userQuizzesHTML}`;
   } else {
     //caso tenha quizzes do usuário, o HTML a ser montado deve ser o que mostra os quizzes do usuario
     userQuizzesHTML = makeUserQuizzesCardsHTML();
+    //populando o HTML da seção de Quizzes do Usuário
+    const elementUserQuizzes = document.getElementById("user-quizzes-html");
+    elementUserQuizzes.innerHTML = `
+    <div class="have-user-quizzes">
+            <div class="user-quizzes-header">
+              <h1> Seus Quizzes </h1>
+              <button onclick="goToCreateQuizz()">+</button>
+            </div>
+            <div class="quizzes-list">
+              ${userQuizzesHTML}
+            </div>
+          </div>
+    `;
   }
 
   //chamamos a função para montar o HTML da parte que mostra Todos os Quizzes
   allQuizzesHTML = makeAllQuizzesCardsHTML();
 
-  //populando o HTML da seção de Quizzes do Usuário
-  const elementUserQuizzes = document.getElementById("user-quizzes-html");
-  elementUserQuizzes.innerHTML = `
-  <div class="have-user-quizzes">
-					<div class="user-quizzes-header">
-						<h1> Seus Quizzes </h1>
-						<button onclick="goToCreateQuizz()">+</button>
-					</div>
-					<div class="quizzes-list">
-            ${userQuizzesHTML}
-					</div>
-				</div>
-  `;
   //populando o HTML da seção de Todos os Quizzes
   const elementAllQuizzes = document.getElementById("all-quizzes-html");
   elementAllQuizzes.innerHTML = `
@@ -966,7 +995,6 @@ function makeFinalObject() {
 
   console.log(globalObject)
   sendQuizz()
-
 }
 
 function sendQuizz() {
@@ -982,9 +1010,11 @@ function sendQuizz() {
 function getCreatedQuizzId (response) {
   let quizzId = response.data.id;
   console.log(quizzId)
+  //armazena o quizz em local storage
+  saveQuizzToLocalStorage(response);
+  //exibe página de sucesso 
   handleGoToQuizzPage4(quizzId);
 }
-
 
 
 function handleInvalidLevelValues() {
