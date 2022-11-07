@@ -1073,8 +1073,8 @@ function handleGoToQuizzPage4(id) {
   mainContent.innerHTML = toPrint;
 }
 
-function handleGoToCreatedQuizz() {
-
+function handleGoToCreatedQuizz(quizzValue) {
+  window.open("/projeto6-buzzquizz/tela2/index.html", "_self");
 }
 
 function goHome () {
